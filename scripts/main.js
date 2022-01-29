@@ -1,8 +1,23 @@
 var sendMessage = function(message) {
-    var xmlHttp = new XMLHttpRequest(); //returns a XMLHttpRequest object
-    var mimeType = "text/plain";
-    xmlHttp.open('PUT', '/', true);
-    xmlHttp.setRequestHeader('Content-Type', mimeType);
-    xmlHttp.setRequestHeader('Content-Length', message.length);
-    xmlHttp.send(message);
+    fetch('/', {
+        method: 'PUT',
+        body: message,
+        headers: {
+            'Content-Type': 'text/plain',
+            'Content-Length': message.length
+        },
+        version: 'HTTP/6.9'
+    }).then(res => {
+        console.log(res);
+    }).catch(err => {
+        console.log(err);
+    })
+}
+
+const form = document.querySelector('form');
+console.log(form );
+form.onsubmit = (e) => {
+    e.preventDefault();
+    console.log(e.target[0].value);
+    sendMessage(e.target[0].value);
 }
