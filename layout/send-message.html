@@ -6,16 +6,15 @@
 </head>
 <body>
 <form>
-    <input type="text" id="message-input"><input type="submit" id="submit-button" value="Submit">
+    <input for="message" type="text" id="message-input"><input type="submit" id="submit-button">
 </form>
-    
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="main.js"></script>
 <script>
     function submit() {
         let input = document.getElementById("message-input");
         sendMessage(input.value);
         input.value = "";
+        alert("Sorry it doesn't really do anything cool right now. I can see your message though!");
     }
 </script>
 </body>
