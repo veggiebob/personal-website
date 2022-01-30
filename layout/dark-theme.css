@@ -18,3 +18,8 @@ a {
     color: magenta;
     font-weight: bold;
 }
+
+.img-link {
+    /* no underline */
+    text-decoration: none;
+}
