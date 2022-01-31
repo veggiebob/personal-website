@@ -6,9 +6,27 @@
         <h1>Hoses</h1>
         <p>
             things will go here. eventually.
+            picture, for example, a canvas! or something!
         </p>
+        like this big!
+        <canvas id="canvas" width="500" height="500"></canvas>
     </body>
     <style>
         @import "dark-theme.css";
+        #canvas {
+            border: 1px solid black;
+        }
     </style>
+    <script>
+        const canvas = document.getElementById("canvas");
+        const ctx = canvas.getContext("2d");
+        const width = canvas.width;
+        const height = canvas.height;
+        ctx.textAlign = "center";
+        ctx.fillStyle = "#333";
+        ctx.rect(0, 0, width, height);
+        ctx.fillStyle = "#fff";
+        ctx.font = "30px serif";
+        ctx.fillText("Canvas!", width / 2, height / 2);
+    </script>
 </html>
