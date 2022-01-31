@@ -50,7 +50,7 @@
         const parseOutput = document.querySelector('#parse-output');
         parseButton.onclick = () => {
             let message = parseInput.value;
-            fetch('/', {
+            fetch('/parse', {
                 method: 'POST',
                 body: message,
                 headers: {
