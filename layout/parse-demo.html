@@ -8,7 +8,9 @@
         <p style="font-size: 15px">
             This will contain a parse demo! First, a method of input:
         </p>
-        <span id="terminal-prefix">$ </span><input id="parse-input" type="text" id="input" placeholder="Enter an expression">
+        <span id="terminal-prefix">$ </span><textarea id="parse-input" type="text" id="input" placeholder="Enter an expression"></textarea>
+        <button id="parse-button">Parse!</button>
+        <p id="parse-output"></p>
     </body>
     <style>
         @import "dark-theme.css";
@@ -17,8 +19,8 @@
             background-color: transparent;
             /* no border */
             border: none;
-            /* no outline */
-            outline: none;
+            /* faint outline */
+            outline: 1px solid #ccc;
             /* white placeholder text */
             color: #ccc;
             /* large size */
@@ -30,12 +32,40 @@
             /* bold */
             font-weight: bold;
             font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+            margin-top: 3px;
+            margin-right: 5px;
+            float: left;
         }
     </style>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script>
-        $(document).ready(function() {
-            $('#parse-input').focus();
-        });
+        // const form = document.querySelector('form');
+        // console.log(form );
+        // form.onsubmit = (e) => {
+        //     e.preventDefault();
+        //     console.log(e.target[0].value);
+        //     sendMessage(e.target[0].value);
+        // }
+        const parseButton = document.querySelector('#parse-button');
+        const parseInput = document.querySelector('#parse-input');
+        const parseOutput = document.querySelector('#parse-output');
+        parseButton.onclick = () => {
+            let message = parseInput.value;
+            fetch('/', {
+                method: 'POST',
+                body: message,
+                headers: {
+                    'Content-Type': 'text/plain',
+                    'Content-Length': message.length,
+                    'Parse-Mode': 'stmt'
+                }
+            }).then(res => {
+                res.text().then(text => {
+                    parseOutput.innerHTML = text;
+                });
+            }).catch(err => {
+                console.log(err);
+            })
+        }
     </script>
+    <script src='main.js'></script>
 </html>
