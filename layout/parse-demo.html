@@ -6,9 +6,18 @@
     </head>
     <body class='default'>
         <h1>Parse Demo!</h1>
+        <p>Source for this project can be found <a target="_blank" href="https://github.com/veggiebob/left-right-parsing">here</a></p>
         <p style="font-size: 15px">
-            This will contain a parse demo! First, a method of input:
+            This will contain a parse demo! <br>
+            Choose a parse mode. <br>
+            <!-- create a drop down for different parse modes -->
+            <select id="parse-mode">
+                <option value="stmt">Statement</option>
+                <option value="expr">Expression</option>
+                <!-- <option value="prgm">Program</option> -->
+            </select>
         </p>
+        
         <span id="terminal-prefix">$ </span><textarea id="parse-input" type="text" id="input" placeholder="Enter an expression"></textarea>
         <button id="parse-button">Parse!</button>
         <p id="parse-output"></p>
@@ -49,6 +58,7 @@
         const parseButton = document.querySelector('#parse-button');
         const parseInput = document.querySelector('#parse-input');
         const parseOutput = document.querySelector('#parse-output');
+        const parseMode = document.querySelector('#parse-mode');
         parseButton.onclick = () => {
             let message = parseInput.value;
             fetch('/parse', {
@@ -57,7 +67,7 @@
                 headers: {
                     'Content-Type': 'text/plain',
                     'Content-Length': message.length,
-                    'Parse-Mode': 'stmt'
+                    'Parse-Mode': parseMode.value
                 }
             }).then(res => {
                 res.text().then(text => {
@@ -67,6 +77,9 @@
                 console.log(err);
             })
         }
+        parseMode.addEventListener('change', () => {
+            parseButton.click();
+        });
         parseInput.addEventListener('keyup', () => parseButton.click());
     </script>
     <script src='main.js'></script>
