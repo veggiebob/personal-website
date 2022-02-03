@@ -6,9 +6,40 @@
     </head>
     <body class='default'>
         <h1>Parse Demo!</h1>
-        <p>Source for this project can be found <a target="_blank" href="https://github.com/veggiebob/left-right-parsing">here</a></p>
+        <a target="_blank" href="https://github.com/veggiebob/left-right-parsing">Source</a>
+        <a href="/">Homepage</a>
+        <p>
+            Observe the JSON output of your input.
+            Example:
+            <div class="code-block">
+                add_one[x: nat] => x + y where { let y = 1 }
+            </div>
+            In <strong>Statement Mode</strong> will produce:
+            <div class="code-block">
+                <!-- how do I pretty-print this lol -->
+                {
+                    "name": "add_one",
+                    "args": [
+                      {
+                        "identifier": "x",
+                        "type": "nat"
+                      }
+                    ],
+                    "expr": {
+                      "left": "x",
+                      "infix": "+",
+                      "right": "y"
+                    },
+                    "defs": [
+                      {
+                        "identifier": "y",
+                        "expr": 1
+                      }
+                    ]
+                  } 
+            </div>
+        </p>
         <p style="font-size: 15px">
-            This will contain a parse demo! <br>
             Choose a parse mode. <br>
             <!-- create a drop down for different parse modes -->
             <select id="parse-mode">
@@ -45,6 +76,13 @@
             margin-top: 3px;
             margin-right: 5px;
             float: left;
+        }
+        .code-block {
+            font-family:'Courier New', Courier, monospace;
+            font-size: 14px;
+            background-color: #555;
+            color: #fff;
+            padding: 5px;
         }
     </style>
     <script>
