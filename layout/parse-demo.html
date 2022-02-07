@@ -47,6 +47,14 @@
                 <option value="expr">Expression</option>
                 <!-- <option value="prgm">Program</option> -->
             </select>
+            <br>
+            Choose an output mode.
+            <br>
+            <select id="output-mode">
+                <option value="json">JSON</option>
+                <option value="html">HTML</option>
+                <option value="debug">Debug</option>
+            </select>
         </p>
         
         <span id="terminal-prefix">$ </span><textarea id="parse-input" type="text" id="input" placeholder="Enter an expression"></textarea>
@@ -96,6 +104,7 @@
         const parseButton = document.querySelector('#parse-button');
         const parseInput = document.querySelector('#parse-input');
         const parseOutput = document.querySelector('#parse-output');
+        const parseOutputMode = document.querySelector('#output-mode');
         const parseMode = document.querySelector('#parse-mode');
         parseButton.onclick = () => {
             let message = parseInput.value;
@@ -105,17 +114,21 @@
                 headers: {
                     'Content-Type': 'text/plain',
                     'Content-Length': message.length,
-                    'Parse-Mode': parseMode.value
+                    'Parse-Mode': parseMode.value,
+                    'Output-Mode': parseOutputMode.value
                 }
             }).then(res => {
                 res.text().then(text => {
-                    parseOutput.innerHTML = text;
+                    parseOutput.innerHTML = text.replace(/\n/g, '<br>');
                 });
             }).catch(err => {
                 console.log(err);
             })
         }
         parseMode.addEventListener('change', () => {
+            parseButton.click();
+        });
+        parseOutputMode.addEventListener('change', () => {
             parseButton.click();
         });
         parseInput.addEventListener('keyup', () => parseButton.click());
