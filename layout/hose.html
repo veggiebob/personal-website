@@ -28,8 +28,6 @@
             ctx.clearRect(0, 0, width, height);
         }
 
-        background();
-
         const MAX_POP = 150;
         const MAX_DAY_TIME = 24;
         const MAX_WEEK_TIME = 7;
@@ -79,7 +77,7 @@
         }
 
         function time_as_float(time) {
-            let ftime = time[0] / 24 + time[1] / 60;
+            let ftime = (time[0] + time[1] / 60) / 24;
             switch (timeMode) {
                 case TimeMode.DAY:
                     return ftime * MAX_DAY_TIME;
@@ -192,32 +190,34 @@
             ctx.stroke();
         }
 
-        // some test data
-        plot_data([
-            {
-                x: 6.50,
-                y: 20
-            },
-            {
-                x: 7.50,
-                y: 30
-            },
-            {
-                x: 10.00,
-                y: 15
-            },
-            {
-                x: 21.99,
-                y: 145
-            },
-            {
-                x: 23.00,
-                y: 10
-            }
-        ]);
+        function draw_scene(data) {
+            background();
 
-        draw_time_axis();
-        draw_population_axis();
+            // some test data
+            plot_data(data);
+
+            draw_time_axis();
+            draw_population_axis();
+        }
+
+        function redraw_graph() {
+            fetch(
+                '/gym-population',
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: ''
+                }
+            ).then(response => {
+                draw_scene(JSON.parse(response.body));
+            }).catch(error => {
+                console.log(error);
+            });
+        }
+
+        redraw_graph();
         
     </script>
 </html>
