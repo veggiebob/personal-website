@@ -1,0 +1,27 @@
+<html>
+    <head>
+        <title>Stress Test</title>
+        <meta charset="utf-8">
+    </head>
+    <body>
+        <button onclick="stressy()">
+            do the stress test
+        </button>
+    </body>
+    <script>
+        function stressy() {
+            let message = '';
+            for (let i = 0; i < 2000; i++) {
+                message += '0';
+            }
+            fetch('/stress-test', {
+                method: 'POST',
+                body: message,
+                headers: {
+                    'Content-Type': 'text/plain',
+                    'Content-Length': message.length,
+                }
+            })
+        }
+    </script>
+</html>
