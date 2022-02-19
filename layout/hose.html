@@ -9,12 +9,12 @@
             picture, for example, a canvas! or something!
         </p>
         like this big!
-        <canvas id="canvas" width="500" height="500"></canvas>
+        <canvas id="canvas" width="900" height="700"></canvas>
     </body>
     <style>
         @import "dark-theme.css";
         #canvas {
-            border: 1px solid black;
+            border: 1px solid white;
         }
     </style>
     <script>
@@ -22,11 +22,144 @@
         const ctx = canvas.getContext("2d");
         const width = canvas.width;
         const height = canvas.height;
-        ctx.textAlign = "center";
-        ctx.fillStyle = "#333";
-        ctx.rect(0, 0, width, height);
-        ctx.fillStyle = "#fff";
-        ctx.font = "30px serif";
-        ctx.fillText("Canvas!", width / 2, height / 2);
+
+        // draw the background
+        function background(color) {
+            ctx.clearRect(0, 0, width, height);
+        }
+
+        background();
+
+        const MAX_POP = 150;
+        const MAX_DAY_TIME = 24;
+        const MAX_WEEK_TIME = 7;
+        
+        const TimeMode = {
+            DAY: 0,
+            WEEK: 1
+        };
+
+        function maximum_time_value(mode) {
+            switch (mode) {
+                case TimeMode.DAY:
+                    return MAX_DAY_TIME;
+                case TimeMode.WEEK:
+                    return MAX_WEEK_TIME;
+                default:
+                    return 0;
+            }
+        }
+
+        function add_minutes(time, delta) {
+            let hours = time[0];
+            let minutes = time[1];
+            minutes += delta;
+            if (minutes >= 60) {
+                hours += 1;
+                minutes -= 60;
+            }
+            // if (hours >= 24) {
+                // hours -= 24;
+            // }
+            return [hours, minutes];
+        }
+
+        function time_to_string(time) {
+            let hours = time[0];
+            let minutes = time[1];
+            let hours_string = hours.toString();
+            let minutes_string = minutes.toString();
+            // if (hours < 10) {
+                // hours_string = "0" + hours_string;
+            // }
+            if (minutes < 10) {
+                minutes_string = "0" + minutes_string;
+            }
+            return hours_string + ":" + minutes_string;
+        }
+
+        function time_as_float(time) {
+            let ftime = time[0] / 24 + time[1] / 60;
+            switch (timeMode) {
+                case TimeMode.DAY:
+                    return ftime * MAX_DAY_TIME;
+                case TimeMode.WEEK:
+                    return ftime * MAX_WEEK_TIME;
+                default:
+                    return 0;
+            }
+        }
+
+        let timeMode = TimeMode.DAY;
+
+        const TIME_INCREMENT = 60; // in minutes
+
+        const BOTTOM_MARGIN = 50; // pixels
+        const CORRECTED_HEIGHT = height - BOTTOM_MARGIN;
+
+        function transform_coordinates(x, y) {
+            return {
+                x: x / maximum_time_value(timeMode) * width,
+                y: height - y / MAX_POP * CORRECTED_HEIGHT - BOTTOM_MARGIN
+            };
+        }
+
+        function draw_data(data) {
+            ctx.strokeStyle = "#0f0";
+            ctx.moveTo(0, height - BOTTOM_MARGIN);
+            for (let i = 0; i < data.length; i++) {
+                const { x, y } = transform_coordinates(data[i].x, data[i].y);
+                ctx.lineTo(x, y);
+            }
+            ctx.lineWidth = 5;
+            ctx.stroke();
+        }
+
+        function draw_time_axis() {
+            // draw some sample text
+            ctx.textAlign = "center";
+            ctx.fillStyle = "#fff";
+            ctx.font = "15px serif";
+            // ctx.fillText("Canvas!", width / 2, height / 2);
+            let time = [0, 0];
+            while (time[0] < 24) {
+                time = add_minutes(time, TIME_INCREMENT);
+                const { x, _ } = transform_coordinates(time_as_float(time), 0);
+                let y = height - BOTTOM_MARGIN / 2;
+                ctx.translate(x, y);
+                ctx.rotate(Math.PI / 2);
+                ctx.fillText(time_to_string(time), 0, 0);
+                ctx.rotate(-Math.PI / 2);
+                ctx.translate(-x, -y);
+            }
+            ctx.setTransform(1, 0, 0, 1, 0, 0);
+        }
+
+        // some test data
+        draw_data([
+            {
+                x: 6.50,
+                y: 20
+            },
+            {
+                x: 7.50,
+                y: 30
+            },
+            {
+                x: 10.00,
+                y: 15
+            },
+            {
+                x: 21.99,
+                y: 145
+            },
+            {
+                x: 23.00,
+                y: 10
+            }
+        ]);
+
+        draw_time_axis();
+        
     </script>
 </html>
