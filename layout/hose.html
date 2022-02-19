@@ -1,20 +1,20 @@
 <html>
 <head>
-    <title>Hose</title>
+    <title>Gym Population</title>
     <meta charset="utf-8">
     <body>
-        <h1>Hoses</h1>
+        <h1>Gym Population!</h1>
         <p>
-            things will go here. eventually.
-            picture, for example, a canvas! or something!
+            More info coming soon. Historical records for gym population are being collected.
+            Some test data is shown.
         </p>
-        like this big!
         <canvas id="canvas" width="900" height="700"></canvas>
     </body>
     <style>
         @import "dark-theme.css";
         #canvas {
-            border: 1px solid white;
+            margin: 10px;
+            /* border: 1px solid white; */
         }
     </style>
     <script>
@@ -93,13 +93,15 @@
         let timeMode = TimeMode.DAY;
 
         const TIME_INCREMENT = 60; // in minutes
+        const POP_INCREMENT = 15; // in people
 
         const BOTTOM_MARGIN = 50; // pixels
+        const LEFT_MARGIN = 30; // pixels
         const CORRECTED_HEIGHT = height - BOTTOM_MARGIN;
 
         function transform_coordinates(x, y) {
             return {
-                x: x / maximum_time_value(timeMode) * width,
+                x: x / maximum_time_value(timeMode) * (width - LEFT_MARGIN) + LEFT_MARGIN,
                 y: height - y / MAX_POP * CORRECTED_HEIGHT - BOTTOM_MARGIN
             };
         }
@@ -115,28 +117,83 @@
             ctx.stroke();
         }
 
+        function plot_data(data) {
+            ctx.fillStyle = "#0ff";
+            for (let i = 0; i < data.length; i++) {
+                const { x, y } = transform_coordinates(data[i].x, data[i].y);
+                ctx.beginPath();
+                ctx.arc(x, y, 5, 0, 2 * Math.PI, true);
+                ctx.fill();
+            }
+            ctx.lineWidth = 1;
+        }
+
+        function draw_population_axis() {
+            ctx.strokeStyle = "#fff";
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(LEFT_MARGIN, 0);
+            ctx.lineTo(LEFT_MARGIN, height - BOTTOM_MARGIN);
+            ctx.stroke();
+            
+            let pop = 0;
+            ctx.strokeStyle = "#fff5";
+            ctx.textAlign = "right";
+            while (pop < MAX_POP) {
+                const { x, y } = transform_coordinates(0, pop);
+                ctx.beginPath();
+                ctx.fillText(pop, LEFT_MARGIN - 2, y);
+                ctx.moveTo(LEFT_MARGIN, y);
+                ctx.lineTo(width, y);
+                ctx.stroke();
+                pop += POP_INCREMENT;
+            }
+        }
+
         function draw_time_axis() {
             // draw some sample text
             ctx.textAlign = "center";
             ctx.fillStyle = "#fff";
             ctx.font = "15px serif";
             // ctx.fillText("Canvas!", width / 2, height / 2);
+            let y = height - BOTTOM_MARGIN / 2;
             let time = [0, 0];
+            let i = 0;
             while (time[0] < 24) {
-                time = add_minutes(time, TIME_INCREMENT);
                 const { x, _ } = transform_coordinates(time_as_float(time), 0);
-                let y = height - BOTTOM_MARGIN / 2;
                 ctx.translate(x, y);
                 ctx.rotate(Math.PI / 2);
                 ctx.fillText(time_to_string(time), 0, 0);
                 ctx.rotate(-Math.PI / 2);
                 ctx.translate(-x, -y);
+
+                if (i % 2 == 0) {
+                    // draw grid lines
+                    ctx.strokeStyle = "#fff5";
+                    ctx.lineWidth = 1;
+                    ctx.beginPath();
+                    ctx.moveTo(x, height - BOTTOM_MARGIN);
+                    ctx.lineTo(x, 0);
+                    ctx.stroke();
+                }
+
+                time = add_minutes(time, TIME_INCREMENT);
+                i ++;
             }
+
+            // just to make sure any translations are undone
             ctx.setTransform(1, 0, 0, 1, 0, 0);
+
+            ctx.strokeStyle = "#fff";
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(LEFT_MARGIN, height - BOTTOM_MARGIN);
+            ctx.lineTo(width, height - BOTTOM_MARGIN);
+            ctx.stroke();
         }
 
         // some test data
-        draw_data([
+        plot_data([
             {
                 x: 6.50,
                 y: 20
@@ -160,6 +217,7 @@
         ]);
 
         draw_time_axis();
+        draw_population_axis();
         
     </script>
 </html>
