@@ -1,12 +1,62 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+function SimpleCheckbox(props) {
+    return (
+        <div>
+            <input type='checkbox' checked={props.checked} onClick={props.onclick} onChange={props.onChange}></input>
+            {props.key}
+        </div>
+    )
+}
+
 class Gym extends React.Component {
     constructor(props) {
         super(props);
+        this.rendered = false;
+        this.state = {
+            weekly_mode: false,
+            days_shown: {
+                'all': true,
+                'monday': false,
+                'tuesday': false,
+                'wednesday': false,
+                'thursday': false,
+                'friday': false,
+                'saturday': false,
+                'sunday': false
+            }
+        }
+    }
+
+    getDayId(day) {
+        const dayMap = [
+            'monday',
+            'tuesday',
+            'wednesday',
+            'thursday',
+            'friday',
+            'saturday',
+            'sunday',
+            'all'
+        ];
+        return day >= 0 && day < 8 ? dayMap[day] : (()=>{
+            alert("don't know what day " + day + " is");
+            return null;
+        })();
+    }
+
+    getDay(dayString) {
+        return this.state.days_shown.all || 
+            (dayString in this.state.days_shown ? this.state.days_shown[dayString] : false);
     }
 
     render() {
+        if (this.rendered) {
+            this.updateGraph();
+        } else {
+            this.rendered = true;
+        }
         return (
             <div>
                 <h1>Gym Population!</h1>
@@ -17,16 +67,32 @@ class Gym extends React.Component {
                     More info coming soon. Historical records for gym population are being collected.
                     Limited (2 weeks' worth) data is shown.
                 </p>
+                <div>
+                    {Object.keys(this.state.days_shown)
+                        .map(
+                            k => SimpleCheckbox({
+                                key: k,
+                                // separated for nice user features (use getDay())
+                                checked: this.state.days_shown.all || this.state.days_shown[k],
+                                onclick: () => {
+                                    this.state.days_shown[k] = !this.state.days_shown[k];
+                                    this.setState(this.state);
+                                }
+                            })
+                        )
+                    }
+                </div>
                 <canvas id="canvas" width="900" height="700" margin="10px"></canvas>
             </div>
         )
     }
 
     componentDidMount() {
-        this.update_graph();
+        this.updateGraph();
     }
 
-    update_graph() {
+    updateGraph() {
+        const gymContext = this;
         const canvas = document.getElementById("canvas");
         const ctx = canvas.getContext("2d");
         const width = canvas.width;
@@ -119,16 +185,20 @@ class Gym extends React.Component {
             } else {
                 ctx.strokeStyle = "#0ff";
             }
-            ctx.beginPath();
-            ctx.moveTo(0, height - BOTTOM_MARGIN);
+            let previous = null;
+            ctx.lineWidth = 2;
             for (let i = 0; i < data.length; i++) {
                 const { x, y } = transform_coordinates(data[i].x * maximum_time_value(timeMode), data[i].y);
-                ctx.lineTo(x, y);
-                
+                if (previous !== null) {
+                    ctx.moveTo(previous.x, previous.y);
+                    ctx.beginPath();
+                    ctx.lineTo(previous.x, previous.y);
+                    ctx.lineTo(x, y);
+                    ctx.closePath();
+                    ctx.stroke();
+                }
+                previous = { x, y };
             }
-            ctx.closePath();
-            ctx.lineWidth = 2;
-            ctx.stroke();
         }
 
         function plot_daily_data(data, color) {
@@ -244,13 +314,17 @@ class Gym extends React.Component {
                     days[day].push({
                         x: data.data[i].x % 1,
                         y: data.data[i].y
-                    })
+                    });
                 }
-                let random_bright_color = () => {
-                    return `hsl(${Math.random() * 360}, 100%, 50%)`
+                let hue = 0;
+                let bright_color = r => {
+                    return `hsl(${360 / days.length * r}, 100%, 50%)`
                 }
-                for (let day_data of days) {
-                    draw_daily_data(day_data, random_bright_color());
+                for (let i = 0; i < days.length; i++) {
+                    if (gymContext.getDay(gymContext.getDayId(i))) {
+                        let day_data = days[i];
+                        draw_daily_data(day_data, bright_color(i));
+                    }
                 }
             }
 
