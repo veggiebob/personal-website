@@ -6,33 +6,54 @@
         <title>Veggiebob's Webpage</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
-        <h2>🚧🚧 This is my website under construction 🚧🚧</h2>
-        <p>
-            The source for this webserver is available at 🦀 <a href="https://github.com/veggiebob/personal-webserver">my github</a> 🚀
-            <br>
-
-            <br>
-            You can also find the website itself at <a href="https://github.com/veggiebob/hosted-website">my github.</a>
-        </p>
-        <a href="parse-demo.html" class="img-link">
-            <img src="assets/terminal-template.png" id="terminal-button" alt="terminal-template">
+        <!-- Circular floating link to GitHub Profile -->
+        <a id="github-link" href="https://github.com/veggiebob" id="profile-link">
+            <img src="https://avatars2.githubusercontent.com/u/42460693?s=50&v=4" id="pfp">
         </a>
-        <a href="hose.html" class="img-link"><img src="assets/gym-preview.png" id="gym-data"></a>
-        <br>
+        <div id="root"></div>
     </body>
     <style>
-        @import "dark-theme.css";
-        #gym-data {
-            /* thick border with rounded corners */
-            border: 5px solid #ccc;
+        .subpage-tile {
             border-radius: 5px;
-            height: 150px;   
-        }
-        #terminal-button {
-            width: 150px;
             height: 150px;
-            border: none
+            width: 150px;
+        }
+        .img-link-wrapper {
+            display: inline-block;
+        }
+        .img-link {
+            border-radius: 5px;
+            padding: 30px;
+        }
+        #projects-box {
+            border-radius: 5px;
+            
+            /* center the contents */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #pfp {
+            right: 15px;
+            position: fixed;
+            object-fit: cover;
+            border-radius: 50%;
+            z-index: 999;
+            border: 1px grey solid;
+            padding: 3px;
+            opacity:0.7;
+        }
+        #github-link {
+            color: lightgrey;
+            text-decoration:none;
+            font-weight:bold;
+            font-family: sans-serif;
+        }
+        #pfp:hover {
+            box-shadow: #222 0px 0px 2px 2px;
+            opacity: 1;
+            transition-duration: 0.1s;
+            transform: scale(1.05);
         }
     </style>
 </html>
