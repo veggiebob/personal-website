@@ -33,7 +33,7 @@ class ProjectTile extends React.Component {
 function Projects(props) {
     return (
         <div>
-            <ProjectTile src="assets/gym-preview.png" alt="gym data" link="hose.html" />
+            <ProjectTile src="assets/gym-preview.png" alt="gym data" link="gym" />
             <ProjectTile src="assets/terminal-template.png" alt="terminal image" link="parse-demo" />
             <ProjectTile src="https://www.shadertoy.com/img/logo.png" alt="shadertoy logo" link="shadertoy.html" />
         </div>

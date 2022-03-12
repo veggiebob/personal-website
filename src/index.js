@@ -3,6 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import MainPage from './home-page';
 import ParseDemoPage from './parse-demo';
+import Gym from './gym';
 import NotFound from './not-found';
 import { HashRouter, Route, Router, Routes, Switch } from 'react-router-dom';
 
@@ -12,6 +13,7 @@ const App = props => (
             <Routes>
                 <Route path="/" element={<MainPage />}/>
                 <Route path="/parse-demo" element={<ParseDemoPage />}/>
+                <Route path="/gym" element={<Gym />}/>
                 <Route path="*" element={<NotFound />}/>
             </Routes>
         </div>
