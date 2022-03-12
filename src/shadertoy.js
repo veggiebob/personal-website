@@ -8,6 +8,15 @@ const clipString = function (str, len) {
     return str.length>len?str.substring(0, len)+"...":str;
 }
 
+function LoadingSpinner(props) {
+    return (
+        <div className="spinner-wrapper">
+            <div className="spinner">
+            </div>
+        </div>
+    )
+}
+
 function ShaderPreview(props) {
     const url = "https://www.shadertoy.com/view/"+props.shader_key;
     return (
@@ -48,14 +57,14 @@ class SProjects extends React.Component {
     }
 
     componentDidMount() {
-        this.addShader({
-            preview: 'https://www.shadertoy.com/media/shaders/WdXBWf.jpg',
-            shader_key: "WdXBWf",
-            views: 334,
-            name: "voronoi on a sphere",
-            description: "attempt to put voronoi on a sphere",
-            likes: 1
-        })
+        // this.addShader({
+        //     preview: 'https://www.shadertoy.com/media/shaders/WdXBWf.jpg',
+        //     shader_key: "WdXBWf",
+        //     views: 334,
+        //     name: "voronoi on a sphere",
+        //     description: "attempt to put voronoi on a sphere",
+        //     likes: 1
+        // })
         this.fetch_shadertoy_data();
     }
 
@@ -72,7 +81,12 @@ class SProjects extends React.Component {
                 All Projects <a href="https://www.shadertoy.com/user/veggiebob/sort=newest">here</a>
             </p>
             <table id="shadertoy-loads">
-                {this.state.shaders.map(ShaderPreview)}
+            {
+                this.state.shaders.length > 0 ? 
+                    this.state.shaders.map(ShaderPreview)
+                :
+                    <LoadingSpinner />
+            }
             </table>
         </div>);
     }
