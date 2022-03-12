@@ -35,7 +35,7 @@ function Projects(props) {
         <div>
             <ProjectTile src="assets/gym-preview.png" alt="gym data" link="gym" />
             <ProjectTile src="assets/terminal-template.png" alt="terminal image" link="parse-demo" />
-            <ProjectTile src="https://www.shadertoy.com/img/logo.png" alt="shadertoy logo" link="shadertoy.html" />
+            <ProjectTile src="https://www.shadertoy.com/img/logo.png" alt="shadertoy logo" link="shadertoy" />
         </div>
     )
 }

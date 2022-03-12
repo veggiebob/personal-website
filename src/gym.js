@@ -15,7 +15,7 @@ class Gym extends React.Component {
                 <Link to="/">Homepage</Link>
                 <p>
                     More info coming soon. Historical records for gym population are being collected.
-                    Some test data is shown.
+                    Limited (2 weeks' worth) data is shown.
                 </p>
                 <canvas id="canvas" width="900" height="700" margin="10px"></canvas>
             </div>

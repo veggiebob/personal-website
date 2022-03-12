@@ -1,0 +1,13 @@
+.shadertoy-preview {
+    border-radius: 7px;
+    width: 80%;
+    /* slight shadow below */
+    box-shadow: -1px 5px 3px #222;
+}
+
+td p {
+    padding-bottom: 30px;
+}
+td img {
+    margin-bottom: 50px;
+}
