@@ -1,23 +1,32 @@
-<html>
-<head>
-    <title>Gym Population</title>
-    <meta charset="utf-8">
-    <body>
-        <h1>Gym Population!</h1>
-        <p>
-            More info coming soon. Historical records for gym population are being collected.
-            Some test data is shown.
-        </p>
-        <canvas id="canvas" width="900" height="700"></canvas>
-    </body>
-    <style>
-        @import "dark-theme.css";
-        #canvas {
-            margin: 10px;
-            /* border: 1px solid white; */
-        }
-    </style>
-    <script>
+import React from 'react';
+import { Link } from 'react-router-dom';
+
+class Gym extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        return (
+            <div>
+                <h1>Gym Population!</h1>
+                <a href="https://github.com/veggiebob/gym-data-recorder">Source</a>
+                <br />
+                <Link to="/">Homepage</Link>
+                <p>
+                    More info coming soon. Historical records for gym population are being collected.
+                    Limited (2 weeks' worth) data is shown.
+                </p>
+                <canvas id="canvas" width="900" height="700" margin="10px"></canvas>
+            </div>
+        )
+    }
+
+    componentDidMount() {
+        this.update_graph();
+    }
+
+    update_graph() {
         const canvas = document.getElementById("canvas");
         const ctx = canvas.getContext("2d");
         const width = canvas.width;
@@ -277,13 +286,18 @@
                         // console.log(data)
                         draw_scene(data)
                     })
-                    .catch(console.log)
+                    .catch(e => {
+                        alert("It appears an error has occurred while fetching the data. Sorry :/")
+                        console.log(e);
+                    })
             ).catch(error => {
+                alert("It appears an error has occurred while fetching the data. Sorry :/")
                 console.log(error);
             });
         }
 
         redraw_graph();
-        
-    </script>
-</html>
+    }
+}
+
+export default Gym;
