@@ -5,7 +5,7 @@ function SimpleCheckbox(props) {
     return (
         <div>
             <input type='checkbox' checked={props.checked} onClick={props.onclick} onChange={props.onChange}></input>
-            {props.key}
+            {props.name}
         </div>
     )
 }
@@ -70,15 +70,15 @@ class Gym extends React.Component {
                 <div>
                     {Object.keys(this.state.days_shown)
                         .map(
-                            k => SimpleCheckbox({
-                                key: k,
-                                // separated for nice user features (use getDay())
-                                checked: this.state.days_shown.all || this.state.days_shown[k],
-                                onclick: () => {
-                                    this.state.days_shown[k] = !this.state.days_shown[k];
+                            key => <SimpleCheckbox 
+                                name={key}
+                                key={key} 
+                                checked={this.state.days_shown.all || this.state.days_shown[key]}
+                                onclick={() => {
+                                    this.state.days_shown[key] = !this.state.days_shown[key];
                                     this.setState(this.state);
-                                }
-                            })
+                                }}
+                            />
                         )
                     }
                 </div>
@@ -361,11 +361,11 @@ class Gym extends React.Component {
                         draw_scene(data)
                     })
                     .catch(e => {
-                        alert("It appears an error has occurred while fetching the data. Sorry :/")
+                        // alert("It appears an error has occurred while fetching the data. Sorry :/")
                         console.log(e);
                     })
             ).catch(error => {
-                alert("It appears an error has occurred while fetching the data. Sorry :/")
+                // alert("It appears an error has occurred while fetching the data. Sorry :/")
                 console.log(error);
             });
         }
