@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+input {
+  background-color: #ccc;
+  border-radius: 3px;
+  box-shadow: 0px 0px 3px #ccc;
+}
+
+a {
+  @apply underline decoration-orange-600;
+}
+
+body {
+  @apply bg-neutral-100 text-neutral-800;
+}

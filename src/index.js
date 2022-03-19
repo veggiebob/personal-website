@@ -1,44 +1,26 @@
-// import react libraries
-import "./index.css";
+import "./styles/index.css";
 import React from "react";
 import ReactDOM from "react-dom";
-import MainPage from "./home-page";
-import ParseDemoPage from "./parse-demo";
-import Gym from "./gym";
-import SProjects from "./shadertoy";
-import NotFound from "./not-found";
+import Home from "./pages/home";
+import ParseDemo from "./pages/parse-demo";
+import Gym from "./pages/gym";
+import Shadertoy from "./pages/shadertoy";
+import NotFound from "./pages/not-found";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Layout from "./components/layout/Layout";
 
-const FloatingGithubLink = (props) => (
-  <a
-    id="github-link"
-    href="https://github.com/veggiebob"
-    title="link to github profile"
-    className="absolute right-2 top-2 border-zinc-500 border-2 transition-all rounded-full hover:scale-[112.5%] hover:border-transparent"
-  >
-    <img
-      src="https://avatars2.githubusercontent.com/u/42460693?s=50&v=4"
-      id="pfp"
-      className="rounded-full p-1"
-    />
-  </a>
-);
-
-const App = (props) => (
-  <div>
-    <FloatingGithubLink />
+const App = () => (
+  <Layout>
     <BrowserRouter>
-      <div>
-        <Routes>
-          <Route path="/" element={<MainPage />} />
-          <Route path="/parse-demo" element={<ParseDemoPage />} />
-          <Route path="/gym" element={<Gym />} />
-          <Route path="/shadertoy" element={<SProjects />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </div>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/parse-demo" element={<ParseDemo />} />
+        <Route path="/gym" element={<Gym />} />
+        <Route path="/shadertoy" element={<Shadertoy />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
     </BrowserRouter>
-  </div>
+  </Layout>
 );
 
 ReactDOM.render(<App />, document.getElementById("root"));
