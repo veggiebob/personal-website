@@ -14,7 +14,7 @@ const FloatingGithubLink = (props) => (
     id="github-link"
     href="https://github.com/veggiebob"
     title="link to github profile"
-    className="absolute right-2 top-2 border-black border-2 transition-all rounded-full hover:scale-[112.5%] hover:border-transparent"
+    className="absolute right-2 top-2 border-zinc-500 border-2 transition-all rounded-full hover:scale-[112.5%] hover:border-transparent"
   >
     <img
       src="https://avatars2.githubusercontent.com/u/42460693?s=50&v=4"
