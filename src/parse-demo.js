@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Link } from 'react-router-dom';
+import JsonToHTML from './util/jsonToPrettyHTML';
 
 const ParseDemoHeader = props => (
     <div>
@@ -16,26 +17,29 @@ const ParseDemoHeader = props => (
             </div>
             In <strong>Statement Mode</strong> will produce:
             <div className="code-block">
-                {"{"}
-                    "name": "add_one",
-                    "args": [
-                        {"{"}
-                        "identifier": "x",
-                        "type": "nat"
-                        {"}"}
-                    ],
-                    "expr": {"{"}
-                        "left": "x",
-                        "infix": "+",
-                        "right": "y"
-                    {"}"},
-                    "defs": [
-                        {"{"}
-                        "identifier": "y",
-                        "expr": 1
-                        {"}"}
-                    ]
-                    {"}"} 
+                <JsonToHTML 
+                    className="font-bold"
+                    json={{
+                        name: "add_one",
+                        args: [
+                            {
+                                identifier: "x",
+                                type: "nat"
+                            }
+                        ],
+                        expr: {
+                            left: "x",
+                            infix: "+",
+                            right: "y"
+                        },
+                        defs: [
+                            {
+                                identifier: "y",
+                                expr: 1
+                            }
+                        ]
+                    }}
+                />
             </div>
         </div>
     </div>
