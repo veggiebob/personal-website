@@ -47,7 +47,7 @@ const JsonNumber = (props) => {
 /// left right pair (key: value)
 const JsonField = (props) => {
     const {left, right, indent, color} = props;
-    return <span>
+    return <span className="text-gray-300">
         <Indents num={indent} />
         <span className="font-bold text-gray-300">{left}</span>: <JsonToHTML json={right} indent={indent + 1} color={color} />
     </span>
@@ -61,7 +61,7 @@ const JsonArray = (props) => {
         <br/>
         {
             array.map((item, index) => 
-                <span key={index}>
+                <span key={index} className="text-gray-300">
                     <Indents num={indent + 1} />
                     <JsonToHTML json={item} indent={indent + 1} key={index} color={color + 1} />
                     {index < array.length - 1 ? ',' : ''}

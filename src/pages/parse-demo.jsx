@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import JsonToHTML from "../util/jsonToPrettyHTML";
 
 const ParseDemoHeader = (props) => (
   <div>
@@ -14,15 +15,30 @@ const ParseDemoHeader = (props) => (
         add_one[x: nat] =&gt; x + y where {"{"} let y = 1 {"}"}
       </div>
       In <strong>Statement Mode</strong> will produce:
-      <div className="code-block">
-        {"{"}
-        "name": "add_one", "args": [{"{"}
-        "identifier": "x", "type": "nat"
-        {"}"}
-        ], "expr": {"{"}
-        "left": "x", "infix": "+", "right": "y"
-        {"}"}, "defs": [{"{"}
-        "identifier": "y", "expr": 1{"}"}]{"}"}
+      <div className="text-left bg-slate-800 p-5 rounded-md">
+        <JsonToHTML
+          className="font-bold"
+          json={{
+            name: "add_one",
+            args: [
+              {
+                identifier: "x",
+                type: "nat",
+              },
+            ],
+            expr: {
+              left: "x",
+              infix: "+",
+              right: "y",
+            },
+            defs: [
+              {
+                identifier: "y",
+                expr: 1,
+              },
+            ],
+          }}
+        />
       </div>
     </div>
   </div>
@@ -47,9 +63,9 @@ const parseDemo = () => {
     })
       .then((res) => {
         res.text().then((text) => {
-          this.setState({
-            response: text,
-          });
+          // this.setState({
+          //   response: text,
+          // });
           document.getElementById("parse-output").innerHTML = text;
         });
       })
@@ -63,7 +79,7 @@ const parseDemo = () => {
       <ParseDemoHeader />
       <p style={{ fontSize: 15 }}>
         Choose a parse mode. <br />
-        <select id="parse-mode" onChange={() => this.processInput()}>
+        <select id="parse-mode" onChange={() => processInput()}>
           <option value="stmt">Statement</option>
           <option value="expr">Expression</option>
           <option value="prgm">Program</option>
@@ -71,21 +87,18 @@ const parseDemo = () => {
         <br />
         Choose an output mode.
         <br />
-        <select id="output-mode" onChange={() => this.processInput()}>
+        <select id="output-mode" onChange={() => processInput()}>
           <option value="json">JSON</option>
           <option value="html">HTML</option>
           <option value="debug">Debug</option>
         </select>
       </p>
-
-      <span id="terminal-prefix">$ </span>
       <textarea
         id="parse-input"
         type="text"
         placeholder="Enter an expression"
-        onChange={() => this.processInput()}
+        onChange={() => processInput()}
       ></textarea>
-      <button id="parse-button">Parse!</button>
       <p id="parse-output"></p>
 
       <script src="parse-demo.js"></script>
