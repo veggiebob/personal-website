@@ -3,20 +3,21 @@ import ShaderIcon from "./icons/ShaderIcon";
 import TerminalIcon from "./icons/TerminalIcon";
 import ChartIcon from "./icons/ChartIcon";
 import ServerIcon from "./icons/ServerIcon";
+import { Link } from "react-router-dom";
 
 const ProjectTile = ({ icon, href, title, description }) => {
   return (
-    <a
+    <Link
       className="flex transition-shadow flex-col items-center gap-y-4 max-w-sm p-6 
                 border-[1px] border-neutral-300 rounded-lg hover:shadow-lg no-underline"
-      href={href}
+      to={href}
     >
       {icon}
       <h2 className="font-bold underline decoration-2 text-xl decoration-orange-600">
         {title}
       </h2>
       <p className="">{description}</p>
-    </a>
+    </Link>
   );
 };
 

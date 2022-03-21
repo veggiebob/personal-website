@@ -8,10 +8,11 @@ import Shadertoy from "./pages/shadertoy";
 import NotFound from "./pages/not-found";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Layout from "./components/layout/Layout";
+import Navbar from "./components/layout/Navbar";
 
 const App = () => (
-  <Layout>
-    <BrowserRouter>
+  <BrowserRouter>
+    <Layout>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/parse-demo" element={<ParseDemo />} />
@@ -19,8 +20,8 @@ const App = () => (
         <Route path="/shadertoy" element={<Shadertoy />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
-    </BrowserRouter>
-  </Layout>
+    </Layout>
+  </BrowserRouter>
 );
 
 ReactDOM.render(<App />, document.getElementById("root"));

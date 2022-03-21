@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const FloatingGithubLink = () => (
   <a
@@ -16,16 +17,16 @@ const FloatingGithubLink = () => (
 );
 
 const NavLink = ({ children, href }) => (
-  <a href={href} className={"hover:decoration-white capitalize"}>
+  <Link to={href} className={"hover:decoration-white capitalize"}>
     {children}
-  </a>
+  </Link>
 );
 
 const Navbar = () => {
   return (
     <nav className="sticky gap-x-8 flex bg-orange-600 top-0 py-4 px-8 text-white">
       <NavLink href="/">Home</NavLink>
-      <NavLink href="https://github.com/veggiebob">Github</NavLink>
+      <a href="https://github.com/veggiebob">Github</a>
       <NavLink href="/">Resume</NavLink>
     </nav>
   );
