@@ -1,33 +1,52 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
-const FloatingGithubLink = () => (
-  <a
-    id="github-link"
-    href="https://github.com/veggiebob"
-    title="link to github profile"
-    className="absolute right-2 top-2 border-zinc-500 border-2 transition-all rounded-full hover:scale-[112.5%] hover:border-transparent"
-  >
-    <img
-      src="https://avatars2.githubusercontent.com/u/42460693?s=50&v=4"
-      id="pfp"
-      className="rounded-full p-1"
-    />
-  </a>
-);
-
-const NavLink = ({ children, href }) => (
-  <Link to={href} className={"hover:decoration-white capitalize"}>
-    {children}
-  </Link>
-);
+import BetterLink from "../BetterLink";
+import EmailIcon from "../icons/EmailIcon";
+import GithubIcon from "../icons/GithubIcon";
+import LinkedInIcon from "../icons/LinkedInIcon";
+import ResumeIcon from "../icons/ResumeIcon";
 
 const Navbar = () => {
+  const linkStyling =
+    "decoration-transparent hover:decoration-white transition-all ";
+
   return (
-    <nav className="sticky gap-x-8 flex bg-orange-600 top-0 py-4 px-8 text-white">
-      <NavLink href="/">Home</NavLink>
-      <a href="https://github.com/veggiebob">Github</a>
-      <NavLink href="/">Resume</NavLink>
+    <nav className="sticky flex bg-orange-600 top-0 py-4 px-7 text-white justify-center">
+      <div className="flex max-w-5xl items-center justify-between w-full">
+        <Link to="/" className={linkStyling + "text-xl font-thin"}>
+          Andrew Bowman
+        </Link>
+        <div className="flex gap-x-8 text-sm">
+          <BetterLink
+            to="mailto:jb6248@g.rit.edu"
+            external
+            className={linkStyling}
+          >
+            <EmailIcon className="w-5 fill-white" />
+          </BetterLink>
+          <BetterLink
+            to="https://github.com/veggiebob"
+            external
+            className={linkStyling}
+          >
+            <GithubIcon className="w-5 fill-white" />
+          </BetterLink>
+          <BetterLink
+            to="https://github.com/veggiebob"
+            external
+            className={linkStyling}
+          >
+            <LinkedInIcon className="w-5 fill-white" />
+          </BetterLink>
+          <BetterLink
+            to="https://github.com/veggiebob"
+            external
+            className={linkStyling}
+          >
+            <ResumeIcon className="w-5 fill-white" />
+          </BetterLink>
+        </div>
+      </div>
     </nav>
   );
 };

@@ -8,7 +8,6 @@ import Shadertoy from "./pages/shadertoy";
 import NotFound from "./pages/not-found";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Layout from "./components/layout/Layout";
-import Navbar from "./components/layout/Navbar";
 
 const App = () => (
   <BrowserRouter>

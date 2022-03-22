@@ -1,11 +1,20 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&family=Raleway:wght@300&family=Ubuntu&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-input {
-  background-color: #ccc;
-  border-radius: 3px;
-  box-shadow: 0px 0px 3px #ccc;
+label {
+  @apply flex flex-col text-left gap-y-1;
+}
+
+input,
+select,
+textarea {
+  @apply border-2 border-neutral-200 rounded p-1;
+}
+
+h1 {
+  @apply font-bold text-4xl flex gap-x-4 items-center justify-center;
 }
 
 a {
