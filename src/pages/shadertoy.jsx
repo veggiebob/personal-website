@@ -32,7 +32,7 @@ const shadertoy = () => {
       <div id="shadertoy-loads">
         {shaders.length > 0 ? (
           shaders.map((shaderData) => (
-            <ShaderTile {...shaderData} key={shaderData.key} />
+            <ShaderTile {...shaderData} key={shaderData.key} id={shaderData.key} />
           ))
         ) : (
           <LoadingSpinner />

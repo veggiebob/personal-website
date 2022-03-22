@@ -6,7 +6,7 @@ import ParseDemo from "./pages/parse-demo";
 import Gym from "./pages/gym";
 import Shadertoy from "./pages/shadertoy";
 import NotFound from "./pages/not-found";
-import { HashRouter, Route, Routes } from "react-router-dom";
+import {  HashRouter, Route, Routes } from "react-router-dom";
 import Layout from "./components/layout/Layout";
 
 const App = () => (
