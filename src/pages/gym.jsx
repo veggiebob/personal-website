@@ -359,11 +359,10 @@ class Gym extends React.Component {
 
     let last_response = null;
     function redraw_graph() {
-      fetch("http://veggiebob.com/gym-population", {
+      fetch("/gym-population", {
         method: "POST",
         headers: {
           "Access-Control-Allow-Origin": "*",
-          
           "Content-Type": "application/json",
         },
         body: "",
