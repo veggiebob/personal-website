@@ -29,7 +29,7 @@ const Projects = () => {
         icon={<ServerIcon />}
         href="https://github.com/veggiebob/personal-webserver"
         title="Web Server"
-        description="Custom web server that hosts this website. Built with Rust, and running on my personal RaspberryPi."
+        description="Custom web server that hosts this website and its interactive features. Built with Rust and running on my Raspberry Pi."
       />
       <ProjectTile
         icon={<ChartIcon />}
@@ -41,7 +41,7 @@ const Projects = () => {
         icon={<TerminalIcon />}
         href="/parse-demo"
         title="Text Parser"
-        description="Left-to-right, non-tokenizing text parser that can parse statements into JSON or HTML. Programmed in Rust."
+        description="Left-to-right, non-tokenizing text parser that can parse simple programs into AST. Programmed in Rust."
       />
       <ProjectTile
         icon={<ShaderIcon />}
