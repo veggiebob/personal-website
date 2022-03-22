@@ -45,7 +45,7 @@ const ParseDemoHeader = (props) => (
 );
 
 const parseDemo = () => {
-  const [parsed, setParsed] = useState("");
+  const [output, setOutput] = useState(<p>No data</p>);
 
   const processInput = () => {
     let input = document.getElementById("parse-input").value;
@@ -63,9 +63,18 @@ const parseDemo = () => {
     })
       .then((res) => {
         res.text().then((text) => {
-          document.getElementById("parse-output").innerHTML = "";
-          document.getElementById("parse-output").appendChild(
-            <JsonToHTML json={JSON.parse(text)} />
+          let parsed = {};
+          let is_json = false;
+          try {
+            parsed = JSON.parse(text);
+            is_json = true;
+          } catch (e) {
+          }
+          setOutput(
+            is_json ? 
+              (<div className="text-left bg-slate-800 p-5 rounded-md"><JsonToHTML json={parsed} /></div>)
+              :
+              (<p className="text-red-600 font-bold">{text}</p>)
           );
         });
       })
@@ -99,7 +108,7 @@ const parseDemo = () => {
         placeholder="Enter an expression"
         onChange={() => processInput()}
       ></textarea>
-      <p id="parse-output"></p>
+      <div id="parse-output">{output}</div>
     </div>
   );
 };
