@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import AnyLink from "../../util/AnyLink";
 
 const FloatingGithubLink = () => (
   <a
@@ -17,16 +18,16 @@ const FloatingGithubLink = () => (
 );
 
 const NavLink = ({ children, href }) => (
-  <Link to={href} className={"hover:decoration-white capitalize"}>
+  <AnyLink href={href} className={"hover:decoration-white capitalize"}>
     {children}
-  </Link>
+  </AnyLink>
 );
 
 const Navbar = () => {
   return (
     <nav className="sticky gap-x-8 flex bg-orange-600 top-0 py-4 px-8 text-white">
       <NavLink href="/">Home</NavLink>
-      <a href="https://github.com/veggiebob">Github</a>
+      <NavLink href="https://github.com/veggiebob">Github</NavLink>
       <NavLink href="/">Resume</NavLink>
     </nav>
   );

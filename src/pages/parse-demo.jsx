@@ -63,10 +63,10 @@ const parseDemo = () => {
     })
       .then((res) => {
         res.text().then((text) => {
-          // this.setState({
-          //   response: text,
-          // });
-          document.getElementById("parse-output").innerHTML = text;
+          document.getElementById("parse-output").innerHTML = "";
+          document.getElementById("parse-output").appendChild(
+            <JsonToHTML json={JSON.parse(text)} />
+          );
         });
       })
       .catch((err) => {
@@ -100,8 +100,6 @@ const parseDemo = () => {
         onChange={() => processInput()}
       ></textarea>
       <p id="parse-output"></p>
-
-      <script src="parse-demo.js"></script>
     </div>
   );
 };
