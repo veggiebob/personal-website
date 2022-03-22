@@ -4,11 +4,11 @@ import TerminalIcon from "./icons/TerminalIcon";
 import ChartIcon from "./icons/ChartIcon";
 import ServerIcon from "./icons/ServerIcon";
 import { Link } from "react-router-dom";
-import AnyLink from "../util/AnyLink";
+import BetterLink from "../util/AnyLink";
 
 const ProjectTile = ({ icon, href, title, description }) => {
   return (
-    <AnyLink
+    <BetterLink
       className="flex transition-shadow flex-col items-center gap-y-4 max-w-sm p-6 
                 border-[1px] border-neutral-300 rounded-lg hover:shadow-lg no-underline"
       href={href}
@@ -18,7 +18,7 @@ const ProjectTile = ({ icon, href, title, description }) => {
         {title}
       </h2>
       <p className="">{description}</p>
-    </AnyLink>
+    </BetterLink>
   )
 }
 

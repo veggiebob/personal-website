@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import AnyLink from "../../util/AnyLink";
+import BetterLink from "../../util/AnyLink";
 
 const FloatingGithubLink = () => (
   <a
@@ -18,9 +18,9 @@ const FloatingGithubLink = () => (
 );
 
 const NavLink = ({ children, href }) => (
-  <AnyLink href={href} className={"hover:decoration-white capitalize"}>
+  <BetterLink href={href} className={"hover:decoration-white capitalize"}>
     {children}
-  </AnyLink>
+  </BetterLink>
 );
 
 const Navbar = () => {
