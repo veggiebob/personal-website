@@ -1,8 +1,8 @@
-import { SERVER_URL, IS_DEV } from "./constants";
+import { SERVER_PATH } from "./constants";
 
 export const parseInput = async (input, parseMode, outputMode) => {
   try {
-    const res = await fetch((IS_DEV && SERVER_URL) + "/parse", {
+    const res = await fetch(SERVER_PATH("/parse"), {
       method: "POST",
       body: input,
       headers: {
