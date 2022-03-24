@@ -6,11 +6,11 @@ import ParseDemo from "./pages/parse-demo";
 import Gym from "./pages/gym";
 import Shadertoy from "./pages/shadertoy";
 import NotFound from "./pages/not-found";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import {  HashRouter, Route, Routes } from "react-router-dom";
 import Layout from "./components/layout/Layout";
 
 const App = () => (
-  <BrowserRouter>
+  <HashRouter>
     <Layout>
       <Routes>
         <Route path="/" element={<Home />} />
@@ -20,7 +20,7 @@ const App = () => (
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Layout>
-  </BrowserRouter>
+  </HashRouter>
 );
 
 ReactDOM.render(<App />, document.getElementById("root"));

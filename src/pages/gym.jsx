@@ -78,7 +78,7 @@ class Gym extends React.Component {
           More info coming soon. Historical records for gym population are being
           collected. Limited (2 weeks' worth) data is shown.
         </p>
-        <div>
+        <div className="text-left">
           {Object.keys(this.state.days_shown).map((key) => (
             <SimpleCheckbox
               name={key}
@@ -234,7 +234,7 @@ class Gym extends React.Component {
     }
 
     function draw_population_axis() {
-      ctx.strokeStyle = "#fff";
+      ctx.strokeStyle = "#333";
       ctx.lineWidth = 1;
       ctx.beginPath();
       ctx.moveTo(LEFT_MARGIN, 0);
@@ -242,7 +242,7 @@ class Gym extends React.Component {
       ctx.stroke();
 
       let pop = 0;
-      ctx.strokeStyle = "#fff5";
+      ctx.strokeStyle = "#3335";
       ctx.textAlign = "right";
       while (pop < MAX_POP) {
         const { x, y } = transform_coordinates(0, pop);
@@ -258,7 +258,7 @@ class Gym extends React.Component {
     function draw_time_axis() {
       // draw some sample text
       ctx.textAlign = "center";
-      ctx.fillStyle = "#fff";
+      ctx.fillStyle = "#333";
       ctx.font = "15px serif";
       // ctx.fillText("Canvas!", width / 2, height / 2);
       let y = height - BOTTOM_MARGIN / 2;
@@ -274,7 +274,7 @@ class Gym extends React.Component {
 
         if (i % 2 == 0) {
           // draw grid lines
-          ctx.strokeStyle = "#fff5";
+          ctx.strokeStyle = "#3335";
           ctx.lineWidth = 1;
           ctx.beginPath();
           ctx.moveTo(x, height - BOTTOM_MARGIN);
@@ -289,7 +289,7 @@ class Gym extends React.Component {
       // just to make sure any translations are undone
       ctx.setTransform(1, 0, 0, 1, 0, 0);
 
-      ctx.strokeStyle = "#fff";
+      ctx.strokeStyle = "#333";
       ctx.lineWidth = 1;
       ctx.beginPath();
       ctx.moveTo(LEFT_MARGIN, height - BOTTOM_MARGIN);
@@ -333,7 +333,7 @@ class Gym extends React.Component {
         }
         let hue = 0;
         let bright_color = (r) => {
-          return `hsl(${(360 / days.length) * r}, 100%, 50%)`;
+          return `hsl(${(360 / days.length) * r}, 100%, 20%)`;
         };
         for (let i = 0; i < days.length; i++) {
           if (gymContext.getDay(gymContext.getDayId(i))) {
@@ -359,11 +359,11 @@ class Gym extends React.Component {
 
     let last_response = null;
     function redraw_graph() {
-      fetch("http://veggiebob.com/gym-population", {
+      fetch("/gym-population", {
         method: "POST",
         headers: {
           "Access-Control-Allow-Origin": "*",
-          
+          "Content-Length": 0,
           "Content-Type": "application/json",
         },
         body: "",
