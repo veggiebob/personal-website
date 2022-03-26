@@ -57,7 +57,7 @@ const ParseDemoBody = () => {
     <div className="flex rounded-md border-2 bg-white border-neutral-800 max-w-5xl w-full">
       <form
         className="flex flex-col w-[60%] p-8 gap-y-4"
-        onChange={onFormChange}
+        onKeyUp={onFormChange}
       >
         <div>
           Observe the JSON output of your input. Example:
