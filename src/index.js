@@ -1,28 +1,26 @@
-// import react libraries
-import React from 'react';
-import ReactDOM from 'react-dom';
-import MainPage from './home-page';
-import ParseDemoPage from './parse-demo';
-import Gym from './gym';
-import SProjects from './shadertoy';
-import NotFound from './not-found';
-import { HashRouter, Route, Router, Routes, Switch } from 'react-router-dom';
+import "./styles/index.css";
+import React from "react";
+import ReactDOM from "react-dom";
+import Home from "./pages/home";
+import ParseDemo from "./pages/parse-demo";
+import Gym from "./pages/gym";
+import Shadertoy from "./pages/shadertoy";
+import NotFound from "./pages/not-found";
+import {  HashRouter, Route, Routes } from "react-router-dom";
+import Layout from "./components/layout/Layout";
 
-const App = props => (
-    <HashRouter>
-        <div>
-            <Routes>
-                <Route path="/" element={<MainPage />}/>
-                <Route path="/parse-demo" element={<ParseDemoPage />}/>
-                <Route path="/gym" element={<Gym />}/>
-                <Route path="/shadertoy" element={<SProjects />} />
-                <Route path="*" element={<NotFound />}/>
-            </Routes>
-        </div>
-    </HashRouter>
-)
+const App = () => (
+  <HashRouter>
+    <Layout>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/parse-demo" element={<ParseDemo />} />
+        <Route path="/gym" element={<Gym />} />
+        <Route path="/shadertoy" element={<Shadertoy />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </Layout>
+  </HashRouter>
+);
 
-ReactDOM.render(
-    <App />,
-    document.getElementById('root')
-)
+ReactDOM.render(<App />, document.getElementById("root"));
