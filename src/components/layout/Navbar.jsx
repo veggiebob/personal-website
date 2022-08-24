@@ -32,19 +32,19 @@ const Navbar = () => {
             <GithubIcon className="w-5 fill-white" />
           </BetterLink>
           <BetterLink
-            to="https://github.com/veggiebob"
+            to="https://linkedin.com/in/jacob-bowman-a40599222"
             external
             className={linkStyling}
           >
             <LinkedInIcon className="w-5 fill-white" />
           </BetterLink>
-          <BetterLink
+          {/* <BetterLink
             to="https://github.com/veggiebob"
             external
             className={linkStyling}
           >
             <ResumeIcon className="w-5 fill-white" />
-          </BetterLink>
+          </BetterLink> */}
         </div>
       </div>
     </nav>

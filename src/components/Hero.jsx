@@ -28,12 +28,12 @@ const Hero = () => {
           <BetterLink to="https://github.com/veggiebob" external>
             <GithubIcon className="w-8 fill-white" />
           </BetterLink>
-          <BetterLink to="https://github.com/veggiebob" external>
+          <BetterLink to="https://linkedin.com/in/jacob-bowman-a40599222" external>
             <LinkedInIcon className="w-8 fill-white" />
           </BetterLink>
-          <BetterLink to="https://github.com/veggiebob" external>
+          {/* <BetterLink to="" external>
             <ResumeIcon className="w-8 fill-white" />
-          </BetterLink>
+          </BetterLink> */}
         </div>
       </div>
     </section>

@@ -73,10 +73,10 @@ class Gym extends React.Component {
         <h1>Gym Population!</h1>
         <a href="https://github.com/veggiebob/gym-data-recorder">Source</a>
         <br />
-        <Link to="/">Homepage</Link>
         <p>
-          More info coming soon. Historical records for gym population are being
-          collected. Limited (2 weeks' worth) data is shown.
+          This is a historical record of the values found at <a href='https://recreation.rit.edu/facilityoccupancy'>the RIT recreation website</a>. 
+          <br />
+          Data collection started at approximately 10:00am on August 24th, 2022.  
         </p>
         <div className="text-left">
           {Object.keys(this.state.days_shown).map((key) => (
@@ -136,6 +136,7 @@ class Gym extends React.Component {
       let hours = time[0];
       let minutes = time[1];
       minutes += delta;
+      // not necessary to do while loop
       if (minutes >= 60) {
         hours += 1;
         minutes -= 60;
