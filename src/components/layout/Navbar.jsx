@@ -19,21 +19,21 @@ const Navbar = () => {
         <div className="flex gap-x-8 text-sm">
           <BetterLink
             to="mailto:jb6248@g.rit.edu"
-            external
+            external="true"
             className={linkStyling}
           >
             <EmailIcon className="w-5 fill-white" />
           </BetterLink>
           <BetterLink
             to="https://github.com/veggiebob"
-            external
+            external="true"
             className={linkStyling}
           >
             <GithubIcon className="w-5 fill-white" />
           </BetterLink>
           <BetterLink
             to="https://linkedin.com/in/jacob-bowman-a40599222"
-            external
+            external="true"
             className={linkStyling}
           >
             <LinkedInIcon className="w-5 fill-white" />
