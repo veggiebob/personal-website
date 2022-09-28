@@ -28,7 +28,7 @@ const Hero = () => {
           <BetterLink to="https://github.com/veggiebob" external>
             <GithubIcon className="w-8 fill-white" />
           </BetterLink>
-          <BetterLink to="https://linkedin.com/in/jacob-bowman-a40599222" external>
+          <BetterLink to="https://linkedin.com/in/jacob-a-bowman" external>
             <LinkedInIcon className="w-8 fill-white" />
           </BetterLink>
           {/* <BetterLink to="" external>

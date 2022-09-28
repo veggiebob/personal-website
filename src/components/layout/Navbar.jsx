@@ -32,7 +32,7 @@ const Navbar = () => {
             <GithubIcon className="w-5 fill-white" />
           </BetterLink>
           <BetterLink
-            to="https://linkedin.com/in/jacob-bowman-a40599222"
+            to="https://linkedin.com/in/jacob-a-bowman"
             external="true"
             className={linkStyling}
           >
