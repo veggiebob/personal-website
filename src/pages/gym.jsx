@@ -10,7 +10,7 @@ function SimpleCheckbox(props) {
         checked={props.checked}
         onClick={props.onclick}
         onChange={props.onchange}
-      ></input>
+      ></input>&nbsp;
       {props.name}
     </div>
   );
@@ -48,6 +48,16 @@ let gymData = undefined;
 const Gym = () => {
   const [weeklyMode, setWeeklyMode] = useState(false);
   const [plotData, setData] = useState(undefined);
+  const [lineChart, setLineChart] = useState(true);
+
+  // this is really bad decoupling really the plotting 
+  // aspect should be separated from the data parsing aspect
+  // oh well
+  const updateChart = () => {
+    if (!gymData) { return; }
+    setData(parseData(gymData, lineChart))
+  }
+
   if (!gymData) {
     fetch(CONFIG.serverLocation + "/gym-population")
       .then((response) =>
@@ -55,8 +65,8 @@ const Gym = () => {
           .json()
           .then((data) => {
             // console.log("data received, parsing...");
-            gymData = parseData(data);
-            setData(gymData);
+            gymData = data;
+            updateChart()
           })
           .catch((e) => {
             // json parse error
@@ -78,13 +88,22 @@ const Gym = () => {
         <br />
         Data collection started at approximately 10:00am on August 24th, 2022.  
       </p>
+      <div>
+        <SimpleCheckbox name="Line Chart" onchange={e => {
+          setLineChart(e.target.checked);
+          updateChart()
+        }}/>
+      </div>
       <GymPlot
         data={plotData}
         layout={{
           width: 1200,
           height: 800,
           paper_bgcolor: 'rgba(0,0,0,0)',
-          plot_bgcolor: 'rgba(0,0,0,0)'
+          plot_bgcolor: 'rgba(0,0,0,0)',
+          yaxis: {
+            range: [0, 160]
+          }
         }}
         config={{
           displayModeBar: false
@@ -123,7 +142,7 @@ const add_minutes = (time, delta) => {
 }
 
 const time_from_float = (ftime) => {
-  return [Math.floor(ftime * 24), Math.floor(ftime * 24 * 60) % 24]
+  return [Math.floor(ftime * 24), 0] // Math.floor(ftime * 24 * 60) % 24]
 }
 
 const time_to_string = (time) => {
@@ -177,7 +196,7 @@ const use_data = (continuation_f) => {
   }
 }
 
-const parseData = (data) => {
+const parseData = (data, lineChart) => {
   // some test data
   if (!data.week_mode) {
     // day mode (right now, never used)
@@ -191,7 +210,7 @@ const parseData = (data) => {
 
     let date = new Date();
     let dayDate = date.toISOString().slice(0, 10);
-    let currentTime = date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
+    let currentTime = date.toLocaleTimeString().slice(0, 8);
     let maxY = 0;
     for (let i in data.data) {
       // p.x = p.x % 1 // truncate
@@ -203,8 +222,10 @@ const parseData = (data) => {
     }
     for (let i = 0; i < days.length; i++) {
       days[i].name = getDayId(i)
+      days[i].type = lineChart ? 'bar' : 'line'
     }
-    days.push({x: [currentTime, currentTime], y: [0, maxY], name:'current time', marker:{color:'red'}})
+    let currentX = dayDate + ' ' + currentTime;
+    days.push({x: [currentX, currentX], y: [0, maxY], name:'current time', marker:{color:'red'}})
     return days;
   }
 }
