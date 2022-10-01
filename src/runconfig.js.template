@@ -1,0 +1,4 @@
+// copy this into a file named "runconfig.js"
+export const CONFIG = {
+    serverLocation: "" // example: "http://localhost:8080"
+}

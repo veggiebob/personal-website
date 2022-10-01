@@ -210,7 +210,7 @@ const parseData = (data, lineChart) => {
 
     let date = new Date();
     let dayDate = date.toISOString().slice(0, 10);
-    let currentTime = date.toLocaleTimeString().slice(0, 8);
+    let currentTime = date.toLocaleTimeString('en-GB').slice(0, 8);
     let maxY = 0;
     for (let i in data.data) {
       // p.x = p.x % 1 // truncate
