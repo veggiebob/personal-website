@@ -10,7 +10,8 @@ function SimpleCheckbox(props) {
         checked={props.checked}
         onClick={props.onclick}
         onChange={props.onchange}
-      ></input>&nbsp;
+      ></input>
+      &nbsp;
       {props.name}
     </div>
   );
@@ -50,13 +51,15 @@ const Gym = () => {
   const [plotData, setData] = useState(undefined);
   const [lineChart, setLineChart] = useState(true);
 
-  // this is really bad decoupling really the plotting 
+  // this is really bad decoupling really the plotting
   // aspect should be separated from the data parsing aspect
   // oh well
   const updateChart = () => {
-    if (!gymData) { return; }
-    setData(parseData(gymData, lineChart))
-  }
+    if (!gymData) {
+      return;
+    }
+    setData(parseData(gymData, lineChart));
+  };
 
   if (!gymData) {
     fetch(CONFIG.serverLocation + "/gym-population")
@@ -66,7 +69,7 @@ const Gym = () => {
           .then((data) => {
             // console.log("data received, parsing...");
             gymData = data;
-            updateChart()
+            updateChart();
           })
           .catch((e) => {
             // json parse error
@@ -84,36 +87,41 @@ const Gym = () => {
       <a href="https://github.com/veggiebob/gym-data-recorder">Source</a>
       <br />
       <p>
-        This is a historical record of the values found at <a href='https://recreation.rit.edu/facilityoccupancy'>the RIT recreation website</a>. 
+        This is a historical record of the values found at{" "}
+        <a href="https://recreation.rit.edu/facilityoccupancy">
+          the RIT recreation website
+        </a>
+        .
         <br />
-        Data collection started at approximately 10:00am on August 24th, 2022.  
+        Data collection started at approximately 10:00am on August 24th, 2022.
       </p>
       <div>
-        <SimpleCheckbox name="Line Chart" onchange={e => {
-          setLineChart(e.target.checked);
-          updateChart()
-        }}/>
+        <SimpleCheckbox
+          name="Line Chart"
+          onchange={(e) => {
+            setLineChart(e.target.checked);
+            updateChart();
+          }}
+        />
       </div>
       <GymPlot
         data={plotData}
         layout={{
           width: 1200,
           height: 800,
-          paper_bgcolor: 'rgba(0,0,0,0)',
-          plot_bgcolor: 'rgba(0,0,0,0)',
+          paper_bgcolor: "rgba(0,0,0,0)",
+          plot_bgcolor: "rgba(0,0,0,0)",
           yaxis: {
-            range: [0, 160]
-          }
+            range: [0, 160],
+          },
         }}
         config={{
-          displayModeBar: false
+          displayModeBar: false,
         }}
       />
     </div>
   );
-}
-
-
+};
 
 const maximum_time_value = (mode) => {
   switch (mode) {
@@ -124,7 +132,7 @@ const maximum_time_value = (mode) => {
     default:
       return 0;
   }
-}
+};
 
 const add_minutes = (time, delta) => {
   let hours = time[0];
@@ -139,11 +147,11 @@ const add_minutes = (time, delta) => {
   // hours -= 24;
   // }
   return [hours, minutes];
-}
+};
 
 const time_from_float = (ftime) => {
-  return [Math.floor(ftime * 24), 0] // Math.floor(ftime * 24 * 60) % 24]
-}
+  return [Math.floor(ftime * 24), Math.floor(Math.floor(ftime * 24 * 60) % 24)]; // Math.floor(ftime * 24 * 60) % 24]
+};
 
 const time_to_string = (time) => {
   let hours = time[0];
@@ -157,7 +165,7 @@ const time_to_string = (time) => {
     minutes_string = "0" + minutes_string;
   }
   return hours_string + ":" + minutes_string + ":00";
-}
+};
 
 const time_as_float = (time) => {
   let ftime = (time[0] + time[1] / 60) / 24;
@@ -169,7 +177,7 @@ const time_as_float = (time) => {
     default:
       return 0;
   }
-}
+};
 
 const use_data = (continuation_f) => {
   if (this.cached_data !== undefined) {
@@ -194,63 +202,70 @@ const use_data = (continuation_f) => {
         console.error(error);
       });
   }
-}
+};
 
 const parseData = (data, lineChart) => {
   // some test data
   if (!data.week_mode) {
     // day mode (right now, never used)
-    console.log("it's week mode???")
+    console.log("it's week mode???");
   } else {
     // alert("data retrieved is in week-mode, can only plot day-mode data")
     let days = [];
     for (let i = 0; i < 7; i++) {
-      days.push({x: [], y: []});
+      days.push({ x: [], y: [] });
     }
 
     let date = new Date();
     let dayDate = date.toISOString().slice(0, 10);
-    let currentTime = date.toLocaleTimeString('en-GB').slice(0, 8);
+    let currentTime = date.toLocaleTimeString("en-GB").slice(0, 8);
     let maxY = 0;
     for (let i in data.data) {
       // p.x = p.x % 1 // truncate
       // console.log("from " + data.data[i].x + " to " + data.data[i].x % 1)
       let day = Math.floor(data.data[i].x);
-      days[day].x.push(dayDate + ' ' + time_to_string(time_from_float(data.data[i].x % 1)));
+      days[day].x.push(
+        dayDate + " " + time_to_string(time_from_float(data.data[i].x % 1))
+      );
       days[day].y.push(data.data[i].y);
       maxY = Math.max(maxY, data.data[i].y);
     }
     for (let i = 0; i < days.length; i++) {
-      days[i].name = getDayId(i)
-      days[i].type = lineChart ? 'bar' : 'line'
+      days[i].name = getDayId(i);
+      days[i].type = lineChart ? "bar" : "line";
     }
-    let currentX = dayDate + ' ' + currentTime;
-    days.push({x: [currentX, currentX], y: [0, maxY], name:'current time', marker:{color:'red'}})
+    let currentX = dayDate + " " + currentTime;
+    days.push({
+      x: [currentX, currentX],
+      y: [0, maxY],
+      name: "current time",
+      marker: { color: "red" },
+    });
     return days;
   }
-}
+};
 
-  // var trace1 = {
-  //   x: [1, 2, 3, 4],
-  //   y: [10, 15, 13, 17],
-  //   mode: 'markers',
-  //   type: 'scatter'
-  // };
-  
-  // var data = [trace1];
+// var trace1 = {
+//   x: [1, 2, 3, 4],
+//   y: [10, 15, 13, 17],
+//   mode: 'markers',
+//   type: 'scatter'
+// };
 
-  // Plotly.newPlot('plot', data, 
-  //   {
-  //    paper_bgcolor: 'rgba(0,0,0,0)',
-  //     plot_bgcolor: 'rgba(0,0,0,0)'
-  //   },
-  //   {
-  //     displayModeBar: false
-  //     // modeBarButtonsToRemove: ['zoom2d', 'pan2d', 'select2d', 'lasso2d', 'zoomIn2d', 'zoomOut2d', 'autoScale2d', 'resetScale2d'],
-  //   }
-  // );
+// var data = [trace1];
 
-  /*
+// Plotly.newPlot('plot', data,
+//   {
+//    paper_bgcolor: 'rgba(0,0,0,0)',
+//     plot_bgcolor: 'rgba(0,0,0,0)'
+//   },
+//   {
+//     displayModeBar: false
+//     // modeBarButtonsToRemove: ['zoom2d', 'pan2d', 'select2d', 'lasso2d', 'zoomIn2d', 'zoomOut2d', 'autoScale2d', 'resetScale2d'],
+//   }
+// );
+
+/*
       JSON Spec:
       {
           week_mode: bool,
@@ -262,6 +277,5 @@ const parseData = (data, lineChart) => {
           ]
       }
       */
-  
 
 export default Gym;
