@@ -62,7 +62,13 @@ const Gym = () => {
   };
 
   if (!gymData) {
-    fetch(CONFIG.serverLocation + "/gym-population")
+    fetch(CONFIG.serverLocation + "/gym-population", {
+      headers: {
+        'Access-Control-Allow-Origin':  '*',
+        'Access-Control-Allow-Headers': '*',
+        'Allow': 'GET, POST, HEAD'
+      }
+    })
       .then((response) =>
         response
           .json()

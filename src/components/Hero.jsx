@@ -22,13 +22,13 @@ const Hero = () => {
           in Rust, Haskell, and JavaScript.
         </h2>
         <div className="flex justify-end w-full pr-16 gap-x-6">
-          <BetterLink to="mailto:jb6248@g.rit.edu" external>
+          <BetterLink to="mailto:jb6248@g.rit.edu" external="true">
             <EmailIcon className="w-9 fill-white" />
           </BetterLink>
-          <BetterLink to="https://github.com/veggiebob" external>
+          <BetterLink to="https://github.com/veggiebob" external="true">
             <GithubIcon className="w-8 fill-white" />
           </BetterLink>
-          <BetterLink to="https://linkedin.com/in/jacob-a-bowman" external>
+          <BetterLink to="https://linkedin.com/in/jacob-a-bowman" external="true">
             <LinkedInIcon className="w-8 fill-white" />
           </BetterLink>
           {/* <BetterLink to="" external>
