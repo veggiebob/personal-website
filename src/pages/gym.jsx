@@ -7,7 +7,8 @@ function SimpleCheckbox(props) {
     <div>
       <input
         type="checkbox"
-        checked={props.checked}
+        defaultChecked={props.checked}
+        onInput={props.oninput}
         onClick={props.onclick}
         onChange={props.onchange}
       ></input>
@@ -64,9 +65,7 @@ const Gym = () => {
   if (!gymData) {
     fetch(CONFIG.serverLocation + "/gym-population", {
       headers: {
-        'Access-Control-Allow-Origin':  '*',
-        'Access-Control-Allow-Headers': '*',
-        'Allow': 'GET, POST, HEAD'
+        'Access-Control-Allow-Headers': '*'
       }
     })
       .then((response) =>
@@ -104,7 +103,12 @@ const Gym = () => {
       <div>
         <SimpleCheckbox
           name="Line Chart"
-          onchange={(e) => {
+          checked={lineChart}
+          onclick={(e) => {
+            setLineChart(e.target.checked);
+            updateChart();
+          }}
+          oninput={(e) => {
             setLineChart(e.target.checked);
             updateChart();
           }}
@@ -238,7 +242,7 @@ const parseData = (data, lineChart) => {
     }
     for (let i = 0; i < days.length; i++) {
       days[i].name = getDayId(i);
-      days[i].type = lineChart ? "bar" : "line";
+      days[i].type = lineChart ? "line" : "bar";
     }
     let currentX = dayDate + " " + currentTime;
     days.push({
