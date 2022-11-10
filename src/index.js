@@ -8,6 +8,7 @@ import Shadertoy from "./pages/shadertoy";
 import NotFound from "./pages/not-found";
 import {  HashRouter, Route, Routes } from "react-router-dom";
 import Layout from "./components/layout/Layout";
+import SecretSanta from "./pages/secret-santa";
 
 const App = () => (
   <HashRouter>
@@ -17,6 +18,7 @@ const App = () => (
         <Route path="/parse-demo" element={<ParseDemo />} />
         <Route path="/gym" element={<Gym />} />
         <Route path="/shadertoy" element={<Shadertoy />} />
+        <Route path="/secret-santa" element={<SecretSanta />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Layout>
