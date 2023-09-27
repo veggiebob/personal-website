@@ -14,8 +14,8 @@ const Hero = () => {
     >
       <div className="flex flex-col gap-y-8 items-start text-left">
         <h1 className="text-8xl text-left w-fit font-raleway">
-          Hello, <br />
-          I'm Andrew!
+          Hey, <br />
+          I'm Jacob!
         </h1>
         <h2 className="text-3xl font-thin max-w-xl">
           I'm an undergraduate Computer Science student at RIT with an interest
