@@ -5,10 +5,10 @@ const parseDemo = () => {
   return (
     <>
       <h1>
-        Text Parser
+        BF to SPL Translator
         <a
           target="_blank"
-          href="https://github.com/veggiebob/left-right-parsing"
+          href="https://github.com/veggiebob/bf2spl"
         >
           <GithubIcon className="w-8" />
         </a>
