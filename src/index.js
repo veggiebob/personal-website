@@ -9,6 +9,7 @@ import NotFound from "./pages/not-found";
 import {  HashRouter, Route, Routes } from "react-router-dom";
 import Layout from "./components/layout/Layout";
 import SecretSanta from "./pages/secret-santa";
+import LoginGptClient from "./pages/gpt-client";
 
 const App = () => (
   <HashRouter>
@@ -19,6 +20,7 @@ const App = () => (
         <Route path="/gym" element={<Gym />} />
         <Route path="/shadertoy" element={<Shadertoy />} />
         <Route path="/secret-santa" element={<SecretSanta />} />
+        <Route path="/gpt-client" element={<LoginGptClient />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Layout>

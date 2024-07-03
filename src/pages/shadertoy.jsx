@@ -16,16 +16,6 @@ const shadertoy = () => {
       <h1>Shadertoy Projects</h1>
       <br />
       <p>
-        ⚠️{" "}
-        <span>
-          Since the Shadertoy API hasn't been doing too hot lately,
-          <br />I recommend you just go directly to my{" "}
-        </span>{" "}
-        <a href="https://www.shadertoy.com/user/veggiebob/sort=newest">
-          profile
-        </a>
-        <br />
-        <br />
         All Projects{" "}
         <a href="https://www.shadertoy.com/user/veggiebob/sort=newest">here</a>
       </p>

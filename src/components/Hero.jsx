@@ -22,7 +22,7 @@ const Hero = () => {
           in Rust, Haskell, and JavaScript.
         </h2>
         <div className="flex justify-end w-full pr-16 gap-x-6">
-          <BetterLink to="mailto:jb6248@g.rit.edu" external="true">
+          <BetterLink to="mailto:101jacobbowman@gmail.com" external="true">
             <EmailIcon className="w-9 fill-white" />
           </BetterLink>
           <BetterLink to="https://github.com/veggiebob" external="true">

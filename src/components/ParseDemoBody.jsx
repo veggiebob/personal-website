@@ -9,10 +9,21 @@ const ParseOutput = (props) => {
     />
 };
 
+const DEFAULT_OUTPUT = `Act I: Scene I.
+
+[Enter ROMEO and JULIET]
+
+ROMEO:
+Wherefore art thou, input? Dost thou await my command?
+JULIET:
+Ay, verily. Thy bidding shall be fulfilled with but a touch.
+
+[Exeunt]`
+
 const ParseDemoBody = () => {
   const [timer, setTimer] = useState();
   const [input, setInput] = useState(".[.,]");
-  const [parsed, setParsed] = useState(""); 
+  const [parsed, setParsed] = useState(DEFAULT_OUTPUT.replace(/\n/g, "<br/>")); 
   const [mode, setMode] = useState("default"); // or "ai"
 
   /**
@@ -35,8 +46,8 @@ const ParseDemoBody = () => {
         // onKeyUp={onSubmit}
       >
         <div>
-          Convert <a href='https://esolangs.org/wiki/Brainfuck'>brainf*ck</a> 
-          to <a href='https://esolangs.org/wiki/Shakespeare'>Shakespeare Programming Language</a>
+          Convert <a href='https://esolangs.org/wiki/Brainfuck'>brainf*ck
+          </a> to <a href='https://esolangs.org/wiki/Shakespeare'>Shakespeare Programming Language</a>
           <div className="code-block"></div>
         </div>
         <label htmlFor="parse-input">
@@ -58,6 +69,7 @@ const ParseDemoBody = () => {
             <option value="ai">AI</option>
           </select>
           <button
+            type="button"
             onClick={onSubmit}
             className="bg-orange-500 text-white p-2 rounded-md"
           >Translate</button>

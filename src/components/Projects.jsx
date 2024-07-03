@@ -49,8 +49,8 @@ const Projects = () => {
         <ProjectTile
           icon={<TerminalIcon />}
           href="/parse-demo"
-          title="Text Parser"
-          description="Left-to-right, non-tokenizing text parser that can parse statements into JSON or HTML. Programmed in Rust."
+          title="BF to SPL Translator"
+          description="Interactive demo! Converts brainf*ck code to Shakespeare Programming Language."
         />
         <ProjectTile
           icon={<ShaderIcon />}

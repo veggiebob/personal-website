@@ -14,11 +14,11 @@ const Navbar = () => {
     <nav className="sticky flex bg-orange-600 top-0 py-4 px-7 text-white justify-center">
       <div className="flex max-w-5xl items-center justify-between w-full">
         <Link to="/" className={linkStyling + "text-xl font-thin"}>
-          Andrew Bowman
+          Jacob Andrew Bowman
         </Link>
         <div className="flex gap-x-8 text-sm">
           <BetterLink
-            to="mailto:jb6248@g.rit.edu"
+            to="mailto:101jacobbowman@gmail.com"
             external="true"
             className={linkStyling}
           >
