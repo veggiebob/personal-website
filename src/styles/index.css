@@ -24,3 +24,12 @@ a {
 body {
   @apply bg-neutral-100 text-neutral-800;
 }
+
+.three-foreground {
+  /* Fixed position in front of everything taking the whole screen */
+  @apply fixed inset-0 z-10 flex items-center justify-center;
+}
+
+.scroll-element {
+  @apply absolute top-0 w-1 h-[18000px];
+}

@@ -1,23 +1,23 @@
-import { SERVER_PATH } from "./constants";
+import { CONFIG } from "../runconfig";
 
 export const translateInput = async (input, mode) => {
   try {
     const path = "/translatebf2spl";
-    const params = mode === "ai" ? "/ai" : "";
     const res = await fetch(
-      SERVER_PATH(path + params),
-      // "http://localhost:8081" + path + params, 
+      CONFIG.serverLocation + path,
       {
       method: "POST",
-      body: input,
+      body: JSON.stringify({
+        body: input,
+        ai_mode: mode === "ai",
+      }),
       headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Request-Headers": "*",
-        "Content-Type": "text/plain",
-        "Content-Length": input.length
-      },
+        "Content-Type": "application/json",
+      }
     });
-    const text = await res.text();
+    // convert response to json
+    const json = await res.json();
+    const text = json.body || "No response";
     const HTMLText = text.replace(/\n/g, "<br/>");
     return HTMLText;
   } catch (err) {
