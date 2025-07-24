@@ -56,7 +56,7 @@ function AboutMe() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             cache_key: `${activeTab.toLowerCase()}/sections`,
-            prompt: listPrompt + '\nLimit it to just 3-5 sections.',
+            prompt: listPrompt + '\nLimit it to just 3-5 answers.',
             use_personal_info: true,
             direct: true,
           }),
@@ -117,7 +117,7 @@ function AboutMe() {
       <h1>About Me</h1>
       <LLMCacheContent
         cache_key="about_me"
-        prompt="Tell me about yourself."
+        prompt="Tell me about yourself in 1, brief sentence."
         use_personal_info={true}
         direct={false}
       />

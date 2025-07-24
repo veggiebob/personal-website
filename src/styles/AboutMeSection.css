@@ -1,0 +1,35 @@
+/* css variable for border radius for all corners */
+:root {
+  --border-radius: 30px;
+}
+
+.section-container {
+  display: flex;
+  overflow: hidden;
+  align-items: stretch;
+  width: 100%;
+  margin: 20px;
+  border-radius: var(--border-radius);
+  border: 1px solid #ccc;
+}
+
+.section-sidebar, .section-details {
+  padding: 0.5em 1em;
+}
+
+.section-sidebar {
+  min-width: 20%;
+  max-width: 20%;
+  background-color: #eee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-right: 1px solid #ccc; /* creates the joint line */
+}
+
+.section-details {
+  background-color: #fff;
+  display: flex;
+  align-items: flex-start;
+  text-align: left;
+}

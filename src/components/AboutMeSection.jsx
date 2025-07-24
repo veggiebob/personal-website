@@ -1,6 +1,5 @@
 import React from 'react';
-
-const SIDEBAR_WIDTH = '20%';
+import '../styles/AboutMeSection.css';
 
 const AboutMeSection = ({ sidebarText, children }) => (
   <section>
@@ -9,24 +8,17 @@ const AboutMeSection = ({ sidebarText, children }) => (
 
     {/* Two-column layout */}
     <div
-      style={{
-        display: 'flex',
-        alignItems: 'flex-start',
-        gap: '1rem',
-      }}
+      className='section-container'
     >
-      {/* Sidebar column */}
-      <aside
-        style={{
-          width: SIDEBAR_WIDTH,
-          flexShrink: 0,
-        }}
+      {/* Sidebar column - center items vertically */}
+      <div
+        className='section-sidebar'
       >
         {sidebarText}
-      </aside>
+      </div>
 
       {/* Main body */}
-      <div style={{ flex: 1 }}>
+      <div className='section-details'>
         {children}
       </div>
     </div>

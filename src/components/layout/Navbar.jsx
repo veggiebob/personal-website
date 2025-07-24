@@ -13,7 +13,7 @@ const Navbar = () => {
   return (
     <nav className="sticky flex bg-orange-600 top-0 py-4 px-7 text-white justify-center">
       <div className="flex max-w-5xl items-center justify-between w-full">
-        <Link to="/" className={linkStyling + "text-xl font-thin"}>
+        <Link to="/" className={linkStyling + "text-xl font-bold"}>
           Jacob Andrew Bowman
         </Link>
         <div className="flex gap-x-8 text-sm">
