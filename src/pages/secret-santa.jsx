@@ -54,7 +54,7 @@ const SecretSanta = () => {
             {options.map(
                 n => <div key={n}>
                         <button
-                            className="p-1 m-8 w-full border-solid border-2 border-slate-250 rounded-md bg-orange-500 text-white" 
+                            className="p-1 m-8 w-full border-solid border-2 border-medium rounded-md btn-primary" 
                             type="button" 
                             onClick={e => getName(n)}>{n}</button>
                     </div>)}
@@ -62,7 +62,7 @@ const SecretSanta = () => {
     return <div>
         {selected ? <span>{name}</span> : optionsButtons}
                 <br />
-                <span className="text-red-600">{err}</span>
+                <span className="text-error">{err}</span>
     </div>
 }
 

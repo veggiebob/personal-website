@@ -10,7 +10,7 @@ const parseDemo = () => {
           target="_blank"
           href="https://github.com/veggiebob/bf2spl"
         >
-          <GithubIcon className="w-8" />
+          <GithubIcon className="w-8 fill-content-primary" />
         </a>
       </h1>
       <ParseDemoBody />

@@ -1,9 +1,9 @@
 
 /// Candy bracket colors
 const BRACKET_COLORS = [
-    "text-yellow-500",
-    "text-pink-500",
-    "text-blue-500",
+    "text-primary",
+    "text-secondary", 
+    "text-accent",
 ]
 
 const Bracket = (props) => {
@@ -32,14 +32,14 @@ const Indents = (props) => <>{repeat(props.num)(<>&emsp;</>)}</>;
 /// Funny green string
 const JsonString = (props) => {
     // severe cope for not wanting to deal with quotes properly
-    return <span className="text-green-500">
+    return <span className="json-string">
         {'"' + props.content.replaceAll(/\"/g, "\\\"") + '"'}
     </span>
 }
 
 /// Blue number
 const JsonNumber = (props) => {
-    return <span className="font-bold text-blue-400">
+    return <span className="font-bold json-number">
         {props.content}
     </span>
 }
@@ -47,9 +47,9 @@ const JsonNumber = (props) => {
 /// left right pair (key: value)
 const JsonField = (props) => {
     const {left, right, indent, color} = props;
-    return <span className="text-gray-300">
+    return <span className="json-key">
         <Indents num={indent} />
-        <span className="font-bold text-gray-300">{left}</span>: <JsonToHTML json={right} indent={indent + 1} color={color} />
+        <span className="font-bold json-key">{left}</span>: <JsonToHTML json={right} indent={indent + 1} color={color} />
     </span>
 }
 
@@ -61,7 +61,7 @@ const JsonArray = (props) => {
         <br/>
         {
             array.map((item, index) => 
-                <span key={index} className="text-gray-300">
+                <span key={index} className="json-key">
                     <Indents num={indent + 1} />
                     <JsonToHTML json={item} indent={indent + 1} key={index} color={color + 1} />
                     {index < array.length - 1 ? ',' : ''}

@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import LoadingSpinner from "../components/LoadingSpinner";
 import ShaderTile from "../components/ShaderTile";
 import { fetchShadertoyData } from "../util/fetchShadertoyData";
+import { ExternalLinkIcon } from "../components/BetterLink";
+
 
 const shadertoy = () => {
   const [shaders, setShaders] = useState([]);
@@ -10,6 +12,8 @@ const shadertoy = () => {
   useEffect(() => {
     async function fetchShaders() {
       const data = await fetchShadertoyData();
+      // sort the shaders by likes
+      data.sort((a, b) => b.likes - a.likes);
       setShaders(data);
     }
     fetchShaders();
@@ -18,20 +22,18 @@ const shadertoy = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
       <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">Shadertoy Projects</h1>
-        <p className="text-lg text-gray-600 mb-6">
+        <h1 className="text-4xl font-bold text-content-primary mb-4">Shadertoy Projects</h1>
+        <p className="text-lg text-content-secondary mb-6">
           A collection of my fragment shaders created with GLSL. Each shader is an interactive visual experiment.
         </p>
         <a 
           href="https://www.shadertoy.com/user/veggiebob/sort=newest"
-          className="inline-flex items-center px-6 py-3 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 transition-colors duration-200"
+          className="inline-flex items-center px-6 py-3 btn-primary font-medium rounded-md transition-colors duration-200"
           target="_blank"
           rel="noopener noreferrer"
         >
           View All Projects on Shadertoy
-          <svg className="w-4 h-4 ml-2" fill="currentColor" viewBox="0 0 20 20">
-            <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd"/>
-          </svg>
+          <ExternalLinkIcon className="w-4 h-4 ml-2" />
         </a>
       </div>
       

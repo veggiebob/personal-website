@@ -3,6 +3,7 @@ import { GymPlot } from "../components/GymPlot";
 import { CONFIG } from "../runconfig";
 import { loadMUIComponents } from "../components/LazyMUIComponents";
 import LoadingSpinner from "../components/LoadingSpinner";
+import GithubIcon from "../components/icons/GithubIcon";
 
 function SimpleCheckbox(props) {
   return (
@@ -59,6 +60,21 @@ const Gym = () => {
   const [CircularProgress, setCircularProgress] = useState(null);
   const [muiLoaded, setMuiLoaded] = useState(false);
 
+  // Function to get CSS custom property values
+  const getCSSVariable = (variable) => {
+    return getComputedStyle(document.documentElement).getPropertyValue(variable).trim();
+  };
+
+  // Get theme colors dynamically
+  const getThemeColors = () => {
+    return {
+      bgSecondary: getCSSVariable('--color-bg-secondary'),
+      textPrimary: getCSSVariable('--color-text-primary'),
+      borderLight: getCSSVariable('--color-border-light'),
+      borderMedium: getCSSVariable('--color-border-medium'),
+    };
+  };
+
   // Load MUI components on mount
   useEffect(() => {
     const loadMUI = async () => {
@@ -112,8 +128,15 @@ const Gym = () => {
     </div>
   ) : (
     <div className="h-full">
-      <h1>Gym Population!</h1>
-      <a href="https://github.com/veggiebob/gym-data-recorder">Source code</a>
+      <h1>
+        Gym Population!
+        <a
+          target="_blank"
+          href="https://github.com/veggiebob/gym-data-recorder"
+        >
+          <GithubIcon className="w-8 fill-content-primary" />
+        </a>
+      </h1>
       <br />
       <p>
         These are historical averages for gym occupancy from{" "}
@@ -124,28 +147,46 @@ const Gym = () => {
         <br />
         Data has been refreshed and is currently being collected.
       </p>
-      <GymPlot
-        data={plotData}
-        layout={{
-          width: 1200,
-          height: 800,
-          paper_bgcolor: "rgba(0,0,0,0)",
-          plot_bgcolor: "rgba(0,0,0,0)",
-          yaxis: {
-            range: [0, 160],
-          },
-          xaxis: {
-            type: "date",
-            range: [
-              dayDate + " 05:00:00",
-              dayDate + " 23:59:59",
-            ],
-          }
-        }}
-        config={{
-          displayModeBar: false,
-        }}
-      />
+      <div className="bg-bg-secondary border border-medium rounded-lg p-6 max-w-fit mx-auto">
+        <GymPlot
+          data={plotData}
+          layout={{
+            width: 1200,
+            height: 800,
+            paper_bgcolor: getThemeColors().bgSecondary,
+            plot_bgcolor: getThemeColors().bgSecondary,
+            font: {
+              color: getThemeColors().textPrimary
+            },
+            yaxis: {
+              range: [0, 160],
+              gridcolor: getThemeColors().borderLight,
+              color: getThemeColors().textPrimary,
+              tickcolor: getThemeColors().textPrimary,
+              linecolor: getThemeColors().borderMedium
+            },
+            xaxis: {
+              type: "date",
+              range: [
+                dayDate + " 05:00:00",
+                dayDate + " 23:59:59",
+              ],
+              gridcolor: getThemeColors().borderLight,
+              color: getThemeColors().textPrimary,
+              tickcolor: getThemeColors().textPrimary,
+              linecolor: getThemeColors().borderMedium
+            },
+            legend: {
+              font: {
+                color: getThemeColors().textPrimary
+              }
+            }
+          }}
+          config={{
+            displayModeBar: false,
+          }}
+        />
+      </div>
     </div>
   );
 };

@@ -91,7 +91,7 @@ const GptClient = () => {
             />
             <button
                 type="button"
-                className="bg-orange-500 text-white p-2 rounded-md"
+                className="btn-primary p-2 rounded-md text-sm font-medium"
                 onClick={e => {
                     setSending(true);
                     fetch(
