@@ -8,7 +8,7 @@ import { BetterLink, ExternalLinkIcon } from "./BetterLink";
 const ProjectTile = ({ icon, href, title, description, external = false }) => {
   return (
     <BetterLink
-      className="flex transition-shadow flex-col items-center gap-y-4 max-w-sm p-6 
+      className="flex transition-shadow flex-col items-center gap-y-4 max-w-sm p-6
                 border-[1px] border-medium rounded-lg hover:shadow-lg no-underline bg-bg-secondary"
       to={href}
       external={external}
@@ -37,7 +37,7 @@ const Projects = () => {
           icon={<ServerIcon className="fill-content-primary" />}
           href="https://github.com/veggiebob/personal-webserver"
           title="Web Server"
-          description="Custom web server that hosts this website. Built with Rust, and running on my personal RaspberryPi."
+          description="Custom web server that used to host this website. Built with Rust."
           external={true}
         />
         <ProjectTile
