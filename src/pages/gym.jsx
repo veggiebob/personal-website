@@ -147,7 +147,7 @@ const Gym = () => {
         <br />
         Data has been refreshed and is currently being collected.
       </p>
-      <div className="bg-bg-secondary border border-medium rounded-lg p-6 max-w-fit mx-auto">
+      <div className="bg-bg-secondary border-primary border-2 my-4 rounded-lg p-1 max-w-fit mx-auto">
         <GymPlot
           data={plotData}
           layout={{

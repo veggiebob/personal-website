@@ -10,7 +10,7 @@ const Layout = ({ children }) => {
     <>
       <div className="min-h-screen">
         {loc.pathname !== "/" && <Navbar />}
-        <main className="mt-8 gap-8 text-center flex flex-col items-center">
+        <main className="text-center flex flex-col items-center pt-10 pb-8">
           {children}
         </main>
       </div>

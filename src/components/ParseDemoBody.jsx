@@ -61,7 +61,7 @@ const ParseDemoBody = () => {
   };
 
   return (
-    <div className="flex rounded-lg border-2 bg-bg-secondary border-primary max-w-5xl w-full">
+    <div className="flex my-4 rounded-lg border-2 bg-bg-secondary border-primary max-w-5xl w-full">
       <form
         className="flex flex-col w-[30%] p-8 gap-y-4 rounded-l-lg"
         // onKeyUp={onSubmit}

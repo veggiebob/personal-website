@@ -11,7 +11,7 @@ const Navbar = () => {
     "decoration-transparent hover:decoration-content-primary hover:text-content-primary transition-all ";
 
   return (
-    <nav className="sticky flex bg-primary top-0 py-4 px-7 text-content-inverse justify-center">
+    <nav className="sticky flex bg-primary top-0 py-4 px-7 text-content-inverse justify-center shadow-primary-dark-lg">
       <div className="flex max-w-5xl items-center justify-between w-full">
         <Link to="/" className={linkStyling + "text-xl font-bold text-content-inverse"}>
           Jacob Andrew Bowman

@@ -9,12 +9,15 @@ const Hero = () => {
   return (
     <section
       id="hero"
-      className="flex -mt-8 min-h-[70vh] justify-center items-center bg-cover bg-no-repeat text-white w-full h-full"
+      className="flex -mt-10 min-h-[70vh] justify-center items-center bg-cover text-white w-full h-full"
       style={{ 
-        background: `linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 25%, var(--color-secondary) 50%, var(--color-secondary-dark) 75%, var(--color-secondary-dark) 100%)`
+        background: `linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 25%, var(--color-secondary) 50%, var(--color-secondary-dark) 75%, var(--color-secondary-dark) 100%)`,
       }}
     >
-      <div className="flex flex-col gap-y-8 items-start text-left">
+      <div className="flex flex-col gap-y-8 items-start text-left"
+        style={{
+        }}
+      >
         <h1 className="text-8xl text-left w-fit font-raleway">
           Hey, <br />
           I'm Jacob!
