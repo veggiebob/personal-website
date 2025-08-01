@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { GymPlot } from "../components/GymPlot";
 import { CONFIG } from "../runconfig";
-import CircularProgress from "@mui/material/CircularProgress";
+import { loadMUIComponents } from "../components/LazyMUIComponents";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 function SimpleCheckbox(props) {
   return (
@@ -55,6 +56,23 @@ const Gym = () => {
   const [weeklyMode, setWeeklyMode] = useState(false);
   const [plotData, setData] = useState(undefined);
   const [lineChart, setLineChart] = useState(true);
+  const [CircularProgress, setCircularProgress] = useState(null);
+  const [muiLoaded, setMuiLoaded] = useState(false);
+
+  // Load MUI components on mount
+  useEffect(() => {
+    const loadMUI = async () => {
+      try {
+        const { CircularProgress: CircularProgressComponent } = await loadMUIComponents();
+        setCircularProgress(() => CircularProgressComponent);
+        setMuiLoaded(true);
+      } catch (error) {
+        console.error('Failed to load MUI:', error);
+        setMuiLoaded(true); // Still set to true to show fallback
+      }
+    };
+    loadMUI();
+  }, []);
 
   // this is really bad decoupling really the plotting
   // aspect should be separated from the data parsing aspect
@@ -88,7 +106,11 @@ const Gym = () => {
   }
   let dayDate = new Date().toISOString().slice(0, 10);
 
-  return plotData === undefined ? (<div className="loaders"><CircularProgress/></div>) : (
+  return plotData === undefined ? (
+    <div className="loaders">
+      {muiLoaded && CircularProgress ? <CircularProgress/> : <LoadingSpinner />}
+    </div>
+  ) : (
     <div className="h-full">
       <h1>Gym Population!</h1>
       <a href="https://github.com/veggiebob/gym-data-recorder">Source code</a>

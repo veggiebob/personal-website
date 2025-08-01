@@ -19,7 +19,6 @@ export const fetchShadertoyData = async () => {
       `https://www.shadertoy.com/api/v1/shaders/query/veggiebob?num=8&sort=newest&key=${SHADERTOY_APP_KEY}`
     );
     const shaderKeys = (await data.json()).Results;
-    console.log(shaderKeys);
     await Promise.all(
       shaderKeys.map(async (pkey) => {
         const shaderRes = await fetch(
