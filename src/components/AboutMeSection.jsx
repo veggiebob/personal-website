@@ -3,8 +3,6 @@ import '../styles/AboutMeSection.css';
 
 const AboutMeSection = ({ sidebarText, children }) => (
   <section>
-    {/* Top separator */}
-    <hr style={{ margin: '1.5rem 0' }} />
 
     {/* Two-column layout */}
     <div
@@ -22,9 +20,6 @@ const AboutMeSection = ({ sidebarText, children }) => (
         {children}
       </div>
     </div>
-
-    {/* Bottom separator */}
-    <hr style={{ margin: '1.5rem 0' }} />
   </section>
 );
 

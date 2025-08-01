@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { GymPlot } from "../components/GymPlot";
 import { CONFIG } from "../runconfig";
+import CircularProgress from "@mui/material/CircularProgress";
 
 function SimpleCheckbox(props) {
   return (
@@ -20,6 +21,9 @@ function SimpleCheckbox(props) {
 
 const MAX_DAY_TIME = 24;
 const MAX_WEEK_TIME = 7;
+
+const GYM_OPENS = 6 / 24; // 6 AM
+const GYM_CLOSES = 22 / 24; // 10 PM
 
 const TimeMode = {
   DAY: 0,
@@ -82,13 +86,15 @@ const Gym = () => {
         console.error(error);
       });
   }
-  return (
+  let dayDate = new Date().toISOString().slice(0, 10);
+
+  return plotData === undefined ? (<div className="loaders"><CircularProgress/></div>) : (
     <div className="h-full">
       <h1>Gym Population!</h1>
-      <a href="https://github.com/veggiebob/gym-data-recorder">Source</a>
+      <a href="https://github.com/veggiebob/gym-data-recorder">Source code</a>
       <br />
       <p>
-        This is a historical record of the values found at{" "}
+        These are historical averages for gym occupancy from{" "}
         <a href="https://recreation.rit.edu/facilityoccupancy">
           the RIT recreation website
         </a>
@@ -96,20 +102,6 @@ const Gym = () => {
         <br />
         Data has been refreshed and is currently being collected.
       </p>
-      <div>
-        <SimpleCheckbox
-          name="Line Chart"
-          checked={lineChart}
-          onclick={(e) => {
-            setLineChart(e.target.checked);
-            updateChart();
-          }}
-          oninput={(e) => {
-            setLineChart(e.target.checked);
-            updateChart();
-          }}
-        />
-      </div>
       <GymPlot
         data={plotData}
         layout={{
@@ -120,6 +112,13 @@ const Gym = () => {
           yaxis: {
             range: [0, 160],
           },
+          xaxis: {
+            type: "date",
+            range: [
+              dayDate + " 05:00:00",
+              dayDate + " 23:59:59",
+            ],
+          }
         }}
         config={{
           displayModeBar: false,
@@ -227,12 +226,17 @@ const parseData = (data, lineChart) => {
   for (let i in data.data) {
     // p.x = p.x % 1 // truncate
     // console.log("from " + data.data[i].x + " to " + data.data[i].x % 1)
-    let day = Math.floor(data.data[i].x);
+    let day = data.data[i].day;
+    let day_frac = data.data[i].x;
+    if (day_frac <= GYM_OPENS || day_frac >= GYM_CLOSES) {
+      continue;
+    }
     days[day].x.push(
-      dayDate + " " + time_to_string(time_from_float(data.data[i].x % 1))
+      dayDate + " " + time_to_string(time_from_float(day_frac))
     );
-    days[day].y.push(data.data[i].y);
-    maxY = Math.max(maxY, data.data[i].y);
+    let height = data.data[i].y;
+    days[day].y.push(height);
+    maxY = Math.max(maxY, height);
   }
   for (let i = 0; i < days.length; i++) {
     days[i].name = getDayId(i);

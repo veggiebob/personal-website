@@ -33,3 +33,19 @@ body {
 .scroll-element {
   @apply absolute top-0 w-1 h-[18000px];
 }
+
+:root {
+  /* https://colorffy.com/palettes/XFvHI226PPiGvn9WIKHd */
+  --md-sys-color-primary: #e8ad42;
+  --md-sys-color-secondary: #ab2e03;
+  --md-ref-typeface-brand: 'Open Sans';
+  --md-ref-typeface-plain: system-ui;
+}
+
+.loaders {
+  height: 400px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
