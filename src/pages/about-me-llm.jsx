@@ -32,7 +32,7 @@ function capitalizeAcronyms(str) {
 }
 
 function AboutMe() {
-  const [activeTab, setActiveTab] = useState("Experience");
+  const [activeTab, setActiveTab] = useState(TABS.Experience);
   const [dropdownOptions, setDropdownOptions] = useState([]);
   const [selectedRole, setSelectedRole] = useState("");
   const [sections, setSections] = useState([]);
@@ -83,6 +83,7 @@ function AboutMe() {
           .catch(() => setSections([]));
     }
     if (selectedRole.length > 0) {
+      setSections([]);
       switch (activeTab) {
         case TABS.Experience:
             setTabContent(
@@ -138,7 +139,7 @@ function AboutMe() {
         </select>
       </div>
 
-      <div style={{ display: "flex", gap: "1rem", marginBottom: "1rem" }}>
+      <div style={{ display: "flex", gap: "1rem" }}>
         {Object.keys(TABS).map((tab) => (
           <button
             key={tab}
@@ -156,7 +157,16 @@ function AboutMe() {
           </button>
         ))}
       </div>
-      <div>{sections}</div>
+      <div>
+        {sections.length === 0 ? (
+          <div className="flex justify-center items-center py-8">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+            <span className="ml-3 text-content-secondary">Loading sections...</span>
+          </div>
+        ) : (
+          sections
+        )}
+      </div>
     </div>
   );
 }

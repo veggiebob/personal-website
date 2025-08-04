@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import LoadingSpinner from "./LoadingSpinner";
 
 // Global speed (words per interval)
 export let WORD_PERIOD = 100;
@@ -118,7 +119,7 @@ const LLMCacheContent = ({
 
   // Render as bullet list
   let cumulative = 0;
-  return wordsByLine.length === 0 ? (<></>) : wordsByLine.length > 1 ? (
+  return wordsByLine.length === 0 ? (<LoadingSpinner />) : wordsByLine.length > 1 ? (
     <ul style={{ listStyleType: "disc", paddingLeft: "1.5rem" }}>
       {wordsByLine.map((lineWords, lineIdx) => {
         const startIndex = cumulative;
@@ -131,8 +132,8 @@ const LLMCacheContent = ({
                 <span
                   key={wIdx}
                   style={{
-                    color: globalIdx < visibleCount ? "black" : "transparent",
-                    transition: "color 0.1s ease-in",
+                    opacity: globalIdx < visibleCount ? 1 : 0,
+                    transition: "opacity 0.1s ease-in",
                   }}
                 >
                   {word}
