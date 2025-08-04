@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import JsonToHTML from "../util/jsonToPrettyHTML";
 import { translateInput } from "../util/parseInput";
 import { loadMUIComponents } from "./LazyMUIComponents";
+import { getFormControlSx, getSelectMenuProps } from "../styles/muiTheme";
 
 const ParseOutput = (props) => {
   return <div
@@ -87,53 +88,14 @@ const ParseDemoBody = () => {
               fullWidth 
               variant="outlined" 
               size="small"
-              sx={{
-                '& .MuiOutlinedInput-root': {
-                  backgroundColor: 'var(--color-bg-muted)',
-                  color: 'var(--color-text-primary)',
-                  '& fieldset': {
-                    borderColor: 'var(--color-border-medium)',
-                  },
-                  '&:hover fieldset': {
-                    borderColor: 'var(--color-border-dark)',
-                  },
-                  '&.Mui-focused fieldset': {
-                    borderColor: 'var(--color-primary)',
-                  },
-                },
-                '& .MuiInputLabel-root': {
-                  color: 'var(--color-text-secondary)',
-                  '&.Mui-focused': {
-                    color: 'var(--color-primary)',
-                  },
-                },
-              }}
+              sx={getFormControlSx()}
             >
               <muiComponents.InputLabel>Mode</muiComponents.InputLabel>
               <muiComponents.Select
                 value={mode}
                 label="Mode"
                 onChange={(e) => setMode(e.target.value)}
-                MenuProps={{
-                  PaperProps: {
-                    sx: {
-                      backgroundColor: 'var(--color-bg-muted)',
-                      '& .MuiMenuItem-root': {
-                        color: 'var(--color-text-primary)',
-                        '&:hover': {
-                          backgroundColor: 'var(--color-bg-secondary)',
-                        },
-                        '&.Mui-selected': {
-                          backgroundColor: 'var(--color-primary)',
-                          color: 'var(--color-text-inverse)',
-                          '&:hover': {
-                            backgroundColor: 'var(--color-primary-dark)',
-                          },
-                        },
-                      },
-                    },
-                  },
-                }}
+                MenuProps={getSelectMenuProps()}
               >
                 <muiComponents.MenuItem value="default">Default</muiComponents.MenuItem>
                 <muiComponents.MenuItem value="ai">AI</muiComponents.MenuItem>

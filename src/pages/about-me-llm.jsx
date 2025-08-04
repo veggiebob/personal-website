@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import LLMCacheContent from "../components/LLMCacheContent";
 import AboutMeSection from "../components/AboutMeSection";
+import { loadMUIComponents } from "../components/LazyMUIComponents";
+import { getFormControlSx, getSelectMenuProps } from "../styles/muiTheme";
+import "../styles/AboutMePage.css";
 
 const TABS = {
   Experience: "Experience",
@@ -10,8 +13,8 @@ const TABS = {
 };
 
 const ACRONYMS = {
-  "RIT": "Rochester Institute of Technology",
-}
+  RIT: "Rochester Institute of Technology",
+};
 
 function capitalizeEveryFirstLetter(str) {
   return str
@@ -24,7 +27,7 @@ function capitalizeAcronyms(str) {
   let result = str;
   for (const [acronym, fullForm] of Object.entries(ACRONYMS)) {
     // case insensitive match
-    const regex = new RegExp(`\\b${acronym}\\b`, 'gi');
+    const regex = new RegExp(`\\b${acronym}\\b`, "gi");
     // replace with uppercase acronym
     result = result.replace(regex, acronym.toUpperCase());
   }
@@ -36,6 +39,23 @@ function AboutMe() {
   const [dropdownOptions, setDropdownOptions] = useState([]);
   const [selectedRole, setSelectedRole] = useState("");
   const [sections, setSections] = useState([]);
+  const [muiComponents, setMuiComponents] = useState(null);
+  const [muiLoaded, setMuiLoaded] = useState(false);
+
+  // Load MUI components on mount
+  useEffect(() => {
+    const loadMUI = async () => {
+      try {
+        const components = await loadMUIComponents();
+        setMuiComponents(components);
+        setMuiLoaded(true);
+      } catch (error) {
+        console.error("Failed to load MUI:", error);
+        setMuiLoaded(true); // Still set to true to show fallback
+      }
+    };
+    loadMUI();
+  }, []);
 
   useEffect(() => {
     fetch("https://api.veggiebob.com/get-roles")
@@ -52,116 +72,139 @@ function AboutMe() {
   useEffect(() => {
     function setTabContent(listPrompt, contentPromptTemplate) {
       fetch("https://api.veggiebob.com/llm-cache", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            cache_key: `${activeTab.toLowerCase()}/sections`,
-            prompt: listPrompt + '\nLimit it to just 3-5 answers.',
-            use_personal_info: true,
-            direct: true,
-          }),
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          cache_key: `${activeTab.toLowerCase()}/sections`,
+          prompt: listPrompt + "\nLimit it to just 3-5 answers.",
+          use_personal_info: true,
+          direct: true,
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          setSections(
+            data.body.split(/\n/).map((section, index) => (
+              <AboutMeSection
+                key={index}
+                sidebarText={capitalizeEveryFirstLetter(
+                  capitalizeAcronyms(section)
+                )}
+              >
+                <LLMCacheContent
+                  cache_key={`veggiebob.com/${activeTab.toLowerCase()}/section/${section}?role=${selectedRole}`}
+                  prompt={contentPromptTemplate(section)}
+                  use_personal_info={true}
+                  direct={false}
+                  backoff={1000 * index} // stagger requests
+                />
+              </AboutMeSection>
+            ))
+          );
         })
-          .then((res) => res.json())
-          .then((data) => {
-            setSections(
-              data.body.split(/\n/).map((section, index) => (
-                <AboutMeSection
-                  key={index}
-                  sidebarText={capitalizeEveryFirstLetter(capitalizeAcronyms(section))}
-                >
-                  <LLMCacheContent
-                    cache_key={`veggiebob.com/${activeTab.toLowerCase()}/section/${section}?role=${selectedRole}`}
-                    prompt={contentPromptTemplate(section)}
-                    use_personal_info={true}
-                    direct={false}
-                    backoff={1000 * index} // stagger requests
-                  />
-                </AboutMeSection>
-              ))
-            );
-          })
-          .catch(() => setSections([]));
+        .catch(() => setSections([]));
     }
     if (selectedRole.length > 0) {
       setSections([]);
       switch (activeTab) {
         case TABS.Experience:
-            setTabContent(
-              `List the companies or projects you have worked at, in all lower case, separated by new lines. For example: company-a\ncompany-b\nproject-x\n`,
-              (section) => `Briefly tell me about your experience at ${section}, considering that I am a ${selectedRole}.`
-            )
+          setTabContent(
+            `List the companies or projects you have worked at, in all lower case, separated by new lines. For example: company-a\ncompany-b\nproject-x\n`,
+            (section) =>
+              `Briefly tell me about your experience at ${section}, considering that I am a ${selectedRole}.`
+          );
           break;
         case TABS.Languages:
           setTabContent(
             `List the programming languages you know in all lower case, separated by new lines. For example: javascript\ntypescript\npython\n`,
-            (section) => `Briefly tell me about your experience with ${section}, considering that I am a ${selectedRole}.`
+            (section) =>
+              `Briefly tell me about your experience with ${section}, considering that I am a ${selectedRole}.`
           );
           break;
         case TABS.Tools:
           setTabContent(
             `List the tools you use in all lower case, separated by new lines. For example: git\nvscode\npostman\n`,
-            (section) => `Briefly tell me about your experience with ${section}, considering that I am a ${selectedRole}.`
+            (section) =>
+              `Briefly tell me about your experience with ${section}, considering that I am a ${selectedRole}.`
           );
           break;
         case TABS.Skills:
           setTabContent(
             `List the skills you have in all lower case, separated by new lines. For example: problem-solving\ncommunication\nteamwork\n`,
-            (section) => `Briefly tell me about your skills in ${section}, considering that I am a ${selectedRole}.`
+            (section) =>
+              `Briefly tell me about your skills in ${section}, considering that I am a ${selectedRole}.`
           );
           break;
-      } 
+      }
     }
   }, [activeTab, selectedRole]);
 
   return (
     <div>
       <h1>About Me</h1>
-      <LLMCacheContent
-        cache_key="about_me"
-        prompt="Tell me about yourself in 1, brief sentence."
-        use_personal_info={true}
-        direct={false}
-      />
-      <div style={{ marginBottom: "1rem" }}>
-        <label htmlFor="dynamic-dropdown" style={{ marginRight: "0.5rem" }}>
-          I am (a/an)...
-        </label>
-        <select
-          id="dynamic-dropdown"
-          value={selectedRole}
-          onChange={(e) => setSelectedRole(e.target.value)}
-        >
-          {dropdownOptions.map((option) => (
-            <option key={option} value={option}>
-              {option}
-            </option>
-          ))}
-        </select>
+      <div className="mb-4">
+        <div className="flex items-center gap-2">
+          <label className="text-content-primary">
+            I am a/an
+          </label>
+          {muiLoaded && muiComponents ? (
+            <muiComponents.FormControl
+              variant="outlined"
+              size="small"
+              sx={getFormControlSx({ maxWidth: '200px' })}
+            >
+            <muiComponents.InputLabel>Role</muiComponents.InputLabel>
+            <muiComponents.Select
+              value={selectedRole}
+              label="Role"
+              onChange={(e) => setSelectedRole(e.target.value)}
+              MenuProps={getSelectMenuProps()}
+            >
+              {dropdownOptions.map((option) => (
+                <muiComponents.MenuItem key={option} value={option}>
+                  {option}
+                </muiComponents.MenuItem>
+              ))}
+            </muiComponents.Select>
+          </muiComponents.FormControl>
+        ) : (
+          <select
+            id="dynamic-dropdown"
+            value={selectedRole}
+            onChange={(e) => setSelectedRole(e.target.value)}
+            className="bg-bg-secondary text-content-primary border-medium p-2 rounded-md max-w-xs"
+          >
+            {dropdownOptions.map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
+          </select>
+        )}
+        </div>
       </div>
 
-      <div style={{ display: "flex", gap: "1rem" }}>
-        {Object.keys(TABS).map((tab) => (
-          <button
-            key={tab}
-            onClick={() => setActiveTab(tab)}
-            style={{
-              padding: "0.5rem 1rem",
-              borderBottom: activeTab === tab ? "2px solid #007acc" : "none",
-              background: "none",
-              border: "none",
-              cursor: "pointer",
-              fontWeight: activeTab === tab ? "bold" : "normal",
-            }}
-          >
-            {tab}
-          </button>
-        ))}
+      <div className="about-me-tabs">
+        {Object.keys(TABS).map((tab_key) => {
+          let tab_name = TABS[tab_key];
+          return (
+            <button
+              key={tab_name}
+              onClick={() => setActiveTab(tab_name)}
+              className={`about-me-tab-button ${activeTab === tab_name ? 'active' : ''}`}
+            >
+              {tab_name}
+            </button>
+          );
+        })}
       </div>
       <div>
         {sections.length === 0 ? (
-          <div className="flex justify-center items-center py-8">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-            <span className="ml-3 text-content-secondary">Loading sections...</span>
+          <div className="about-me-loading">
+            <div className="about-me-loading-spinner"></div>
+            <span className="about-me-loading-text">
+              Loading sections...
+            </span>
           </div>
         ) : (
           sections

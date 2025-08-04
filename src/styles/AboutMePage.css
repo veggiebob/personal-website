@@ -1,0 +1,59 @@
+/* About Me Page Styles */
+
+h1 {
+  margin-bottom: 1rem;
+}
+
+.about-me-tabs {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.about-me-tab-button {
+  padding: 0.5rem 1rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text-primary);
+  font-weight: normal;
+  transition: all 0.2s ease;
+  border-bottom: 2px solid transparent;
+}
+
+.about-me-tab-button:hover {
+  color: var(--color-accent);
+}
+
+.about-me-tab-button.active {
+  border-bottom-color: var(--color-accent);
+  font-weight: bold;
+  color: var(--color-accent);
+}
+
+.about-me-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem 0;
+}
+
+.about-me-loading-spinner {
+  animation: spin 1s linear infinite;
+  border-radius: 50%;
+  height: 2rem;
+  width: 2rem;
+  border: 2px solid transparent;
+  border-bottom-color: var(--color-primary);
+}
+
+.about-me-loading-text {
+  margin-left: 0.75rem;
+  color: var(--color-text-secondary);
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
