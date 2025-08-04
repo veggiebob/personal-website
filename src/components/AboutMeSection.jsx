@@ -10,7 +10,7 @@ const AboutMeSection = ({ sidebarText, children }) => (
       </div>
 
       {/* Main body */}
-      <div className="bg-bg-secondary p-6 flex items-start text-left min-w-0 flex-grow text-content-primary leading-relaxed">
+      <div className="min-w-[80%] bg-bg-secondary p-6 flex items-start text-left min-w-0 flex-grow text-content-primary leading-relaxed">
         {children}
       </div>
     </div>

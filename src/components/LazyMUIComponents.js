@@ -5,14 +5,16 @@ export const loadMUIComponents = async () => {
     { default: Select },
     { default: MenuItem },
     { default: FormControl },
-    { default: InputLabel }
+    { default: InputLabel },
+    { default: Skeleton }
   ] = await Promise.all([
     import('@mui/material/CircularProgress'),
     import('@mui/material/Select'),
     import('@mui/material/MenuItem'),
     import('@mui/material/FormControl'),
-    import('@mui/material/InputLabel')
+    import('@mui/material/InputLabel'),
+    import('@mui/material/Skeleton')
   ]);
 
-  return { CircularProgress, Select, MenuItem, FormControl, InputLabel };
+  return { CircularProgress, Select, MenuItem, FormControl, InputLabel, Skeleton };
 };

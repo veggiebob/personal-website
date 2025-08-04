@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import LLMCacheContent from "../components/LLMCacheContent";
 import AboutMeSection from "../components/AboutMeSection";
+import AboutMeSectionSkeleton from "../components/AboutMeSectionSkeleton";
 import { loadMUIComponents } from "../components/LazyMUIComponents";
 import { getFormControlSx, getSelectMenuProps } from "../styles/muiTheme";
 import "../styles/AboutMePage.css";
@@ -75,8 +76,8 @@ function AboutMe() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          cache_key: `${activeTab.toLowerCase()}/sections`,
-          prompt: listPrompt + "\nLimit it to just 3-5 answers.",
+          cache_key: `veggiebob.com/${activeTab.toLowerCase()}/sections`,
+          prompt: listPrompt + "\nLimit it to just 2-4 lines.",
           use_personal_info: true,
           direct: true,
         }),
@@ -93,7 +94,7 @@ function AboutMe() {
               >
                 <LLMCacheContent
                   cache_key={`veggiebob.com/${activeTab.toLowerCase()}/section/${section}?role=${selectedRole}`}
-                  prompt={contentPromptTemplate(section)}
+                  prompt={contentPromptTemplate(section) + "\nYou may use bold (**) occasionally to highlight specific key terms and metrics. Minimize fluff, and keep it light and short."}
                   use_personal_info={true}
                   direct={false}
                   backoff={1000 * index} // stagger requests
@@ -200,11 +201,24 @@ function AboutMe() {
       </div>
       <div>
         {sections.length === 0 ? (
-          <div className="about-me-loading">
-            <div className="about-me-loading-spinner"></div>
-            <span className="about-me-loading-text">
-              Loading sections...
-            </span>
+          <div className="space-y-6">
+            {muiLoaded && muiComponents ? (
+              // MUI Skeleton placeholders that match AboutMeSection layout
+              Array.from({ length: 5 }).map((_, index) => (
+                <AboutMeSectionSkeleton 
+                  key={index} 
+                  muiComponents={muiComponents} 
+                />
+              ))
+            ) : (
+              // Fallback loading spinner
+              <div className="about-me-loading">
+                <div className="about-me-loading-spinner"></div>
+                <span className="about-me-loading-text">
+                  Loading sections...
+                </span>
+              </div>
+            )}
           </div>
         ) : (
           sections

@@ -1,0 +1,6 @@
+/* LLMCacheContent Component Styles */
+
+.markdown-bold {
+  color: var(--color-primary);
+  font-weight: bold;
+}
