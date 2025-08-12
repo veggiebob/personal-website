@@ -39,9 +39,40 @@ function AboutMe() {
   const [activeTab, setActiveTab] = useState(TABS.Experience);
   const [dropdownOptions, setDropdownOptions] = useState([]);
   const [selectedRole, setSelectedRole] = useState("");
+  const [customRole, setCustomRole] = useState("");
+  const [isAddingCustomRole, setIsAddingCustomRole] = useState(false);
   const [sections, setSections] = useState([]);
   const [muiComponents, setMuiComponents] = useState(null);
   const [muiLoaded, setMuiLoaded] = useState(false);
+
+  // Function to handle adding custom role
+  const handleAddCustomRole = () => {
+    if (customRole.trim()) {
+      const newRole = customRole.trim();
+      const existingRole = dropdownOptions.find(opt => 
+        opt.toLowerCase() === newRole.toLowerCase() && opt !== "Custom"
+      );
+      
+      if (existingRole) {
+        // Role already exists, just select it
+        setSelectedRole(existingRole);
+      } else {
+        // Add new role to dropdown
+        setDropdownOptions(prev => [...prev.filter(opt => opt !== "Custom"), newRole, "Custom"]);
+        setSelectedRole(newRole);
+      }
+      
+      setCustomRole("");
+      setIsAddingCustomRole(false);
+    }
+  };
+
+  // Function to handle key press in custom input
+  const handleCustomRoleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleAddCustomRole();
+    }
+  };
 
   // Load MUI components on mount
   useEffect(() => {
@@ -66,7 +97,7 @@ function AboutMe() {
           console.error("Invalid roles data format:", data);
           return;
         }
-        setDropdownOptions(data.body || []);
+        setDropdownOptions([...data.body, "Custom"] || []);
         if (data.body && data.body.length > 0) {
           setSelectedRole(data.body[0]);
         }
@@ -109,8 +140,9 @@ function AboutMe() {
         })
         .catch(() => setSections([]));
     }
-    if (selectedRole.length > 0) {
+    if (selectedRole.length > 0 && selectedRole !== "Custom") {
       setSections([]);
+      
       switch (activeTab) {
         case TABS.Experience:
           setTabContent(
@@ -148,44 +180,125 @@ function AboutMe() {
     <div>
       <h1>About Me</h1>
       <div className="mb-4">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-wrap">
           <label className="text-content-primary">
             I am a/an
           </label>
           {muiLoaded && muiComponents ? (
-            <muiComponents.FormControl
-              variant="outlined"
-              size="small"
-              sx={getFormControlSx({ maxWidth: '200px' })}
-            >
-            <muiComponents.InputLabel>Role</muiComponents.InputLabel>
-            <muiComponents.Select
-              value={selectedRole}
-              label="Role"
-              onChange={(e) => setSelectedRole(e.target.value)}
-              MenuProps={getSelectMenuProps()}
-            >
-              {dropdownOptions.map((option) => (
-                <muiComponents.MenuItem key={option} value={option}>
-                  {option}
-                </muiComponents.MenuItem>
-              ))}
-            </muiComponents.Select>
-          </muiComponents.FormControl>
-        ) : (
-          <select
-            id="dynamic-dropdown"
-            value={selectedRole}
-            onChange={(e) => setSelectedRole(e.target.value)}
-            className="bg-bg-secondary text-content-primary border-medium p-2 rounded-md max-w-xs"
-          >
-            {dropdownOptions.map((option) => (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            ))}
-          </select>
-        )}
+            <>
+              <muiComponents.FormControl
+                variant="outlined"
+                size="small"
+                sx={getFormControlSx({ maxWidth: '200px' })}
+              >
+                <muiComponents.InputLabel>Role</muiComponents.InputLabel>
+                <muiComponents.Select
+                  value={selectedRole}
+                  label="Role"
+                  onChange={(e) => {
+                    setSelectedRole(e.target.value);
+                    if (e.target.value === "Custom") {
+                      setIsAddingCustomRole(true);
+                    } else {
+                      setCustomRole("");
+                      setIsAddingCustomRole(false);
+                    }
+                  }}
+                  MenuProps={getSelectMenuProps()}
+                >
+                  {dropdownOptions.map((option) => (
+                    <muiComponents.MenuItem key={option} value={option}>
+                      {option}
+                    </muiComponents.MenuItem>
+                  ))}
+                </muiComponents.Select>
+              </muiComponents.FormControl>
+              {isAddingCustomRole && (
+                <div className="flex items-center gap-2">
+                  <input
+                    type="text"
+                    value={customRole}
+                    onChange={(e) => setCustomRole(e.target.value)}
+                    onKeyPress={handleCustomRoleKeyPress}
+                    placeholder="Enter your role"
+                    className="bg-bg-secondary text-content-primary border border-border-medium p-2 rounded-md"
+                    style={{ height: '40px', fontSize: '14px', minWidth: '150px' }}
+                  />
+                  <button
+                    onClick={handleAddCustomRole}
+                    disabled={!customRole.trim()}
+                    className="bg-primary text-white px-3 py-2 rounded-md hover:bg-primary-dark disabled:opacity-50 disabled:cursor-not-allowed"
+                    style={{ height: '40px', fontSize: '14px' }}
+                  >
+                    Add
+                  </button>
+                  <button
+                    onClick={() => {
+                      setIsAddingCustomRole(false);
+                      setCustomRole("");
+                      setSelectedRole(dropdownOptions.find(opt => opt !== "Custom") || "");
+                    }}
+                    className="bg-bg-tertiary text-content-primary px-3 py-2 rounded-md hover:bg-border-medium border border-border-medium"
+                    style={{ height: '40px', fontSize: '14px' }}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              )}
+            </>
+          ) : (
+            <>
+              <select
+                id="dynamic-dropdown"
+                value={selectedRole}
+                onChange={(e) => {
+                  setSelectedRole(e.target.value);
+                  if (e.target.value === "Custom") {
+                    setIsAddingCustomRole(true);
+                  } else {
+                    setCustomRole("");
+                    setIsAddingCustomRole(false);
+                  }
+                }}
+                className="bg-bg-secondary text-content-primary border-medium p-2 rounded-md max-w-xs"
+              >
+                {dropdownOptions.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+              {isAddingCustomRole && (
+                <div className="flex items-center gap-2 ml-2">
+                  <input
+                    type="text"
+                    value={customRole}
+                    onChange={(e) => setCustomRole(e.target.value)}
+                    onKeyPress={handleCustomRoleKeyPress}
+                    placeholder="Enter your role"
+                    className="bg-bg-secondary text-content-primary border border-border-medium p-2 rounded-md"
+                  />
+                  <button
+                    onClick={handleAddCustomRole}
+                    disabled={!customRole.trim()}
+                    className="bg-primary text-white px-3 py-2 rounded-md hover:bg-primary-dark disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    Add
+                  </button>
+                  <button
+                    onClick={() => {
+                      setIsAddingCustomRole(false);
+                      setCustomRole("");
+                      setSelectedRole(dropdownOptions.find(opt => opt !== "Custom") || "");
+                    }}
+                    className="bg-bg-tertiary text-content-primary px-3 py-2 rounded-md hover:bg-border-medium border border-border-medium"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              )}
+            </>
+          )}
         </div>
       </div>
 

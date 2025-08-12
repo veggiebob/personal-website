@@ -14,7 +14,7 @@ const Hero = () => {
         background: `linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 25%, var(--color-secondary) 50%, var(--color-secondary-dark) 75%, var(--color-secondary-dark) 100%)`,
       }}
     >
-      <div className="flex flex-col gap-y-8 items-start text-left"
+      <div className="flex flex-col gap-y-8 p-5 items-start text-left"
         style={{
         }}
       >
@@ -23,8 +23,8 @@ const Hero = () => {
           I'm Jacob!
         </h1>
         <h2 className="text-3xl font-thin max-w-xl">
-          I'm an undergraduate Computer Science student at RIT with an interest
-          in Rust, Haskell, and JavaScript.
+          I'm a graduate CS major at RIT with an interest
+          in cloud software, programming languages, and music.
         </h2>
         <div className="flex justify-end w-full pr-16 gap-x-6">
           <BetterLink to="mailto:101jacobbowman@gmail.com" external="true">
