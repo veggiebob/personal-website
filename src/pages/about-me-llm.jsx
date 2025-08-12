@@ -46,7 +46,7 @@ function AboutMe() {
   const [muiLoaded, setMuiLoaded] = useState(false);
 
   // Function to handle adding custom role
-  const handleAddCustomRole = () => {
+  const handleAddCustomRole = async () => {
     if (customRole.trim()) {
       const newRole = customRole.trim();
       const existingRole = dropdownOptions.find(opt => 
@@ -57,9 +57,33 @@ function AboutMe() {
         // Role already exists, just select it
         setSelectedRole(existingRole);
       } else {
-        // Add new role to dropdown
-        setDropdownOptions(prev => [...prev.filter(opt => opt !== "Custom"), newRole, "Custom"]);
-        setSelectedRole(newRole);
+        try {
+          // Add new role to database
+          const response = await fetch("https://api.veggiebob.com/get-roles", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              request_type: "add_role",
+              key: newRole
+            }),
+          });
+          
+          if (response.ok) {
+            // Add new role to dropdown and select it
+            setDropdownOptions(prev => [...prev.filter(opt => opt !== "Custom"), newRole, "Custom"]);
+            setSelectedRole(newRole);
+          } else {
+            console.error("Failed to add role to database");
+            // Still add locally as fallback
+            setDropdownOptions(prev => [...prev.filter(opt => opt !== "Custom"), newRole, "Custom"]);
+            setSelectedRole(newRole);
+          }
+        } catch (error) {
+          console.error("Error adding role:", error);
+          // Still add locally as fallback
+          setDropdownOptions(prev => [...prev.filter(opt => opt !== "Custom"), newRole, "Custom"]);
+          setSelectedRole(newRole);
+        }
       }
       
       setCustomRole("");
@@ -90,7 +114,13 @@ function AboutMe() {
   }, []);
 
   useEffect(() => {
-    fetch("https://api.veggiebob.com/get-roles")
+    fetch("https://api.veggiebob.com/get-roles", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        request_type: "get_roles"
+      }),
+    })
       .then((res) => res.json())
       .then((data) => {
         if (!data || !data.body || !Array.isArray(data.body)) {
