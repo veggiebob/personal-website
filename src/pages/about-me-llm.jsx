@@ -62,6 +62,10 @@ function AboutMe() {
     fetch("https://api.veggiebob.com/get-roles")
       .then((res) => res.json())
       .then((data) => {
+        if (!data || !data.body || !Array.isArray(data.body)) {
+          console.error("Invalid roles data format:", data);
+          return;
+        }
         setDropdownOptions(data.body || []);
         if (data.body && data.body.length > 0) {
           setSelectedRole(data.body[0]);
